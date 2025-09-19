@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NavBar from '../components/NavBar.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import FeaturedApp from '../components/FeaturedApp.astro';
+import ProjectsGrid from '../components/ProjectsGrid.astro';
+import BlogTeaser from '../components/BlogTeaser.astro';
+import Footer from '../components/Footer.astro';
+---
+<BaseLayout>
+  <NavBar />
+  <main id="main">
+    <Hero />
+    <About />
+    <ProjectsGrid />
+    <FeaturedApp />
+    <BlogTeaser />
+  </main>
+  <Footer />
+</BaseLayout>

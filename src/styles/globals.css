@@ -1,0 +1,142 @@
+@layer base {
+  :root {
+    color-scheme: light dark;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.6;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-size: var(--type-step0);
+    min-height: 100vh;
+  }
+
+  a {
+    color: var(--color-link);
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  a:visited {
+    color: var(--color-linkVisited);
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .container {
+    width: min(1200px, 100%);
+    margin: 0 auto;
+    padding: 0 var(--space-4);
+  }
+
+  .section-title {
+    font-size: var(--type-step3);
+    margin-bottom: var(--space-5);
+    line-height: 1.2;
+  }
+
+  .lead {
+    font-size: var(--type-step1);
+    max-width: 60ch;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.1rem;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    transition: transform 180ms ease, box-shadow 180ms ease;
+  }
+
+  .btn:focus-visible {
+    outline: 2px solid var(--color-info);
+    outline-offset: 3px;
+  }
+
+  .btn-primary {
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--color-primary) 100%, transparent 0%),
+      color-mix(in srgb, var(--color-primary) 80%, var(--color-secondary) 20%)
+    );
+    color: #ffffff;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .btn-primary:visited {
+    color: #ffffff;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    filter: brightness(1.02);
+  }
+
+  [data-theme='dark'] .btn-primary {
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--color-primary) 88%, #1E293B 12%),
+      color-mix(in srgb, var(--color-primary) 68%, #0B1021 32%)
+    );
+  }
+
+  .btn-secondary {
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    background: transparent;
+  }
+
+  [data-theme='dark'] .btn-secondary {
+    border-color: color-mix(in srgb, var(--color-border) 40%, var(--color-primary) 60%);
+    background: color-mix(in srgb, #1E293B 82%, transparent);
+    color: var(--color-darkText);
+  }
+
+  .skip-link {
+    position: absolute;
+    left: -999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .skip-link:focus {
+    position: fixed;
+    left: var(--space-4);
+    top: var(--space-4);
+    width: auto;
+    height: auto;
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-info);
+    color: #fff;
+    z-index: 1000;
+    border-radius: var(--radius-sm);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

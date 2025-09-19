@@ -1,0 +1,73 @@
+<section class="about" id="about">
+  <div class="container about__inner">
+    <div class="about__intro">
+      <h2 class="section-title">Professional focus</h2>
+      <p class="lead">
+        Xavier blends product strategy with hands-on engineering, guiding ideas from discovery to launch while mentoring teams on sustainable delivery practices.
+      </p>
+    </div>
+    <div class="about__grid">
+      <article>
+        <h3>What I do</h3>
+        <ul>
+          <li>Design and build AI-enabled web applications from prototype to production.</li>
+          <li>Lead technical discovery, architecture reviews, and iterative delivery with cross-functional teams.</li>
+          <li>Maintain open source projects that improve developer experience and observability.</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Expertise</h3>
+        <ul>
+          <li>TypeScript, Astro, React, and Flutter for front-end experiences.</li>
+          <li>Java, Kotlin, and cloud-native services for resilient backends.</li>
+          <li>Prompt engineering, LLM evaluation, and data workflows for applied AI.</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Values</h3>
+        <ul>
+          <li>Accessible, inclusive products with measurable impact.</li>
+          <li>Open collaboration and sharing through community projects.</li>
+          <li>Continuous learning fueled by experimentation in and out of the lab.</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    padding-block: clamp(3.5rem, 8vw, 5.5rem);
+  }
+
+  .about__inner {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .about__grid {
+    display: grid;
+    gap: var(--space-5);
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+
+  .about__grid article {
+    padding: var(--space-5);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .about__grid h3 {
+    margin-top: 0;
+    margin-bottom: var(--space-3);
+  }
+
+  .about__grid ul {
+    padding-left: 1.2rem;
+    margin: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+</style>

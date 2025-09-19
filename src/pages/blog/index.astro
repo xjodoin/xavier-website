@@ -1,0 +1,98 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime()
+);
+---
+<BaseLayout title="Xavier Jodoin — Blog" description="Writing about AI products, engineering process, and the lessons drawn from everyday experiments.">
+  <main id="main" class="blog-index">
+    <div class="container">
+      <header class="blog-index__header">
+        <h1>Blog</h1>
+        <p class="lead">Stories on AI product development, developer tools, and unexpected insights from the garden.</p>
+      </header>
+      <div class="blog-index__list">
+        {posts.map((post) => (
+          <article class="blog-index__item">
+            <p class="blog-index__date">{post.data.publishDate.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+            <h2>
+              <a href={`/blog/${post.slug}/`}>{post.data.title}</a>
+            </h2>
+            <p>{post.data.description}</p>
+            <ul class="blog-index__tags">
+              {post.data.tags.map((tag) => (
+                <li>{tag}</li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .blog-index {
+    padding-block: clamp(3rem, 8vw, 5rem);
+  }
+
+  .blog-index__header {
+    display: grid;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+  }
+
+  .blog-index__list {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .blog-index__item {
+    padding: var(--space-5);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .blog-index__date {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: var(--type-step-1);
+  }
+
+  .blog-index__item h2 {
+    margin: 0;
+    font-size: var(--type-step2);
+  }
+
+  .blog-index__item a {
+    color: var(--color-text);
+  }
+
+  .blog-index__item a:hover,
+  .blog-index__item a:focus-visible {
+    color: var(--color-primary);
+  }
+
+  .blog-index__tags {
+    list-style: none;
+    display: flex;
+    gap: var(--space-2);
+    padding: 0;
+    margin: 0;
+  }
+
+  .blog-index__tags li {
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-secondary) 14%, transparent);
+    color: var(--color-secondary);
+    font-size: var(--type-step-1);
+    font-weight: 600;
+  }
+</style>

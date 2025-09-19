@@ -1,0 +1,50 @@
+<footer class="footer" id="contact">
+  <div class="container footer__inner">
+    <div>
+      <h2>Let’s collaborate</h2>
+      <p class="lead">Reach out for product collaborations, technical consulting, or speaking engagements.</p>
+      <a class="btn btn-primary" href="mailto:hello@xavierjodoin.com">hello@xavierjodoin.com</a>
+    </div>
+    <div class="footer__links">
+      <a href="https://www.linkedin.com/in/xjodoin" target="_blank" rel="noreferrer">LinkedIn</a>
+      <a href="https://github.com/xjodoin" target="_blank" rel="noreferrer">GitHub</a>
+      <a href="https://theaiplantdoctor.com" target="_blank" rel="noreferrer">AI Plant Doctor</a>
+    </div>
+    <p class="footer__smallprint">© {new Date().getFullYear()} Xavier Jodoin. Built with Astro and deployed on Firebase Hosting.</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding-block: clamp(3rem, 8vw, 4rem);
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .footer__inner {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .footer__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .footer__links a {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .footer__links a:hover,
+  .footer__links a:focus-visible {
+    color: var(--color-primary);
+  }
+
+  .footer__smallprint {
+    color: var(--color-muted);
+    font-size: var(--type-step-1);
+    margin: 0;
+  }
+</style>

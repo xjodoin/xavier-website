@@ -1,0 +1,121 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post }
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props as Props;
+const { Content } = await post.render();
+const published = post.data.publishDate.toLocaleDateString(undefined, {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+});
+const canonical = `https://xavierjodoin.com/blog/${post.slug}/`;
+---
+<BaseLayout
+  title={`${post.data.title} — Xavier Jodoin`}
+  description={post.data.description}
+  pageType="article"
+  canonical={canonical}
+>
+  <main id="main" class="blog-post">
+    <div class="container blog-post__container">
+      <header class="blog-post__header">
+        <a class="blog-post__back" href="/blog">← Back to all posts</a>
+        <p class="blog-post__date">{published}</p>
+        <h1>{post.data.title}</h1>
+        <p class="lead">{post.data.description}</p>
+        <ul class="blog-post__tags">
+          {post.data.tags.map((tag) => (
+            <li>{tag}</li>
+          ))}
+        </ul>
+      </header>
+      <article class="blog-post__content">
+        <Content />
+      </article>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .blog-post {
+    padding-block: clamp(3rem, 8vw, 5rem);
+  }
+
+  .blog-post__header {
+    display: grid;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+  }
+
+  .blog-post__back {
+    color: var(--color-muted);
+    font-weight: 500;
+  }
+
+  .blog-post__date {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: var(--type-step-1);
+  }
+
+  .blog-post__tags {
+    list-style: none;
+    display: flex;
+    gap: var(--space-2);
+    padding: 0;
+    margin: 0;
+    flex-wrap: wrap;
+  }
+
+  .blog-post__tags li {
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-secondary) 14%, transparent);
+    color: var(--color-secondary);
+    font-size: var(--type-step-1);
+    font-weight: 600;
+  }
+
+  .blog-post__content {
+    display: grid;
+    gap: 1.2rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    padding: clamp(1.8rem, 4vw, 2.8rem);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .blog-post__content :global(h2) {
+    font-size: var(--type-step2);
+  }
+
+  .blog-post__content :global(p) {
+    margin: 0;
+  }
+
+  .blog-post__content :global(ul),
+  .blog-post__content :global(ol) {
+    padding-left: 1.4rem;
+  }
+
+  .blog-post__content :global(blockquote) {
+    border-left: 4px solid var(--color-primary);
+    padding-left: var(--space-4);
+    color: color-mix(in srgb, var(--color-text) 80%, var(--color-muted) 20%);
+  }
+</style>

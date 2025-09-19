@@ -1,0 +1,22 @@
+{
+  "name": "xavier-website",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "lint": "astro check",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "astro": "^5.13.9"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "prettier": "^3.3.2",
+    "prettier-plugin-astro": "^0.11.0",
+    "typescript": "^5.5.4"
+  }
+}

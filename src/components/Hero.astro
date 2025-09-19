@@ -1,0 +1,124 @@
+<section class="hero" id="top">
+  <div class="container hero__inner">
+    <div class="hero__content">
+      <p class="hero__eyebrow">Software Engineer · AI Product Builder</p>
+      <h1>Building useful AI & web tools that help people notice what matters</h1>
+      <p class="hero__lead lead">
+        I’m Xavier Jodoin. I design and ship practical applications like AI Plant Doctor while maintaining open source tools that empower developers.
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn-primary" href="https://theaiplantdoctor.com" target="_blank" rel="noreferrer">
+          Try AI Plant Doctor
+        </a>
+        <a class="btn btn-secondary" href="https://github.com/xjodoin" target="_blank" rel="noreferrer">
+          View GitHub
+        </a>
+      </div>
+    </div>
+    <div class="hero__media">
+      <picture>
+        <source
+          type="image/avif"
+          srcset="
+            /images/xavier-hero-640w.avif 640w,
+            /images/xavier-hero-960w.avif 960w,
+            /images/xavier-hero-1280w.avif 1280w,
+            /images/xavier-hero-1600w.avif 1600w,
+            /images/xavier-hero-1920w.avif 1920w"
+          sizes="(max-width: 768px) 100vw, (max-width: 1100px) 45vw, 560px"
+        />
+        <source
+          type="image/webp"
+          srcset="
+            /images/xavier-hero-640w.webp 640w,
+            /images/xavier-hero-960w.webp 960w,
+            /images/xavier-hero-1280w.webp 1280w,
+            /images/xavier-hero-1600w.webp 1600w,
+            /images/xavier-hero-1920w.webp 1920w"
+          sizes="(max-width: 768px) 100vw, (max-width: 1100px) 45vw, 560px"
+        />
+        <img
+          src="/images/xavier-hero-1280w.webp"
+          alt="Portrait of Xavier Jodoin with a blue gradient backdrop"
+          width="1280"
+          height="731"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </picture>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: clamp(4rem, 8vw, 6rem);
+    position: relative;
+    background: radial-gradient(120% 120% at 15% 15%, color-mix(in srgb, var(--color-primary) 25%, transparent), transparent 55%),
+      linear-gradient(120deg, color-mix(in srgb, var(--color-secondary) 16%, transparent), transparent 70%);
+  }
+
+  .hero__inner {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  .hero__content h1 {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    line-height: 1.1;
+    margin-bottom: var(--space-4);
+  }
+
+  .hero__eyebrow {
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: var(--type-step-1);
+    color: var(--color-muted);
+    margin-bottom: var(--space-3);
+  }
+
+  .hero__lead {
+    margin-bottom: var(--space-6);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .hero__media {
+    display: flex;
+    justify-content: center;
+  }
+
+  .hero__media picture {
+    width: min(560px, 100%);
+    border-radius: clamp(var(--radius-lg), 4vw, 32px);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .hero__media img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  @media (max-width: 768px) {
+    .hero__inner {
+      text-align: center;
+    }
+
+    .hero__actions {
+      justify-content: center;
+    }
+
+    .hero__media {
+      order: -1;
+    }
+  }
+</style>

@@ -1,0 +1,59 @@
+---
+import '../styles/tokens.css';
+import '../styles/globals.css';
+
+const {
+  title = 'Xavier Jodoin — Software Engineer & AI Builder',
+  description = 'Portfolio and blog for Xavier Jodoin featuring professional experience, open source work, and AI Plant Doctor.',
+  pageType = 'website',
+  canonical = 'https://xavierjodoin.com'
+} = Astro.props;
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Xavier Jodoin',
+  url: canonical,
+  sameAs: [
+    'https://www.linkedin.com/in/xjodoin',
+    'https://github.com/xjodoin',
+    'https://theaiplantdoctor.com'
+  ],
+  jobTitle: 'Software Engineer',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Independent'
+  }
+};
+---
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content={pageType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content="/favicon.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <slot />
+    <script type="module" src="/scripts/theme-toggle.js"></script>
+  </body>
+</html>
