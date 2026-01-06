@@ -1,26 +1,35 @@
 ---
 import type { Project } from '../data/projects';
 import { projects } from '../data/projects';
-const { heading = 'Open Source Projects', description = 'Selected repositories that show how I approach developer tooling, security, and data visualization.' } = Astro.props;
+const {
+  heading = 'Open Source Projects',
+  description = 'Selected repositories that highlight my approach to developer tooling, secure infrastructure, and thoughtful data visualization.'
+} = Astro.props;
 ---
 <section class="projects" id="projects">
   <div class="container">
-    <div class="projects__header">
+    <header class="projects__header">
+      <p class="projects__eyebrow">Portfolio</p>
       <h2 class="section-title">{heading}</h2>
       <p class="lead">{description}</p>
-    </div>
+    </header>
     <div class="projects__grid">
-      {projects.map((project: Project) => (
-        <article class="project-card">
-          <h3>{project.title}</h3>
-          <p>{project.description}</p>
-          <ul class="project-card__tags">
-            {project.tags.map((tag) => (
-              <li>{tag}</li>
-            ))}
-          </ul>
+      {projects.map((project: Project, index: number) => (
+        <article class="project-card glass" style={`--delay: ${index * 0.1}s`}>
+          <div class="project-card__content">
+            <h3>{project.title}</h3>
+            <p>{project.description}</p>
+            <ul class="project-card__tags">
+              {project.tags.map((tag) => (
+                <li>{tag}</li>
+              ))}
+            </ul>
+          </div>
           <a class="project-card__link" href={project.link} target="_blank" rel="noreferrer">
-            View on GitHub
+            <span>View repository</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
           </a>
         </article>
       ))}
@@ -30,34 +39,62 @@ const { heading = 'Open Source Projects', description = 'Selected repositories t
 
 <style>
   .projects {
-    padding-block: clamp(3.5rem, 8vw, 5.5rem);
+    padding-block: clamp(var(--space-16), 10vw, var(--space-24));
+    position: relative;
   }
 
   .projects__header {
-    display: grid;
-    gap: var(--space-3);
-    margin-bottom: var(--space-6);
+    text-align: center;
+    max-width: 720px;
+    margin-inline: auto;
+    margin-bottom: var(--space-12);
+  }
+
+  .projects__eyebrow {
+    font-size: var(--type-sm);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-primary);
+    margin-bottom: var(--space-4);
+  }
+
+  .projects__header .lead {
+    margin-inline: auto;
   }
 
   .projects__grid {
     display: grid;
-    gap: var(--space-5);
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-6);
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   }
 
   .project-card {
-    padding: var(--space-5);
-    border-radius: var(--radius-lg);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    box-shadow: var(--shadow-sm);
+    padding: var(--space-8);
+    border-radius: var(--radius-2xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    animation: fadeInUp 0.6s var(--ease-out) var(--delay, 0s) backwards;
+  }
+
+  .project-card__content {
+    flex: 1;
     display: grid;
-    gap: var(--space-3);
+    gap: var(--space-4);
   }
 
   .project-card h3 {
+    font-size: var(--type-xl);
+    font-weight: 600;
     margin: 0;
-    font-size: var(--type-step2);
+    letter-spacing: -0.02em;
+  }
+
+  .project-card p {
+    margin: 0;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
   }
 
   .project-card__tags {
@@ -67,24 +104,49 @@ const { heading = 'Open Source Projects', description = 'Selected repositories t
     gap: var(--space-2);
     padding: 0;
     margin: 0;
+    margin-top: auto;
   }
 
   .project-card__tags li {
-    padding: 0.2rem 0.6rem;
-    border-radius: 999px;
-    background: color-mix(in srgb, var(--color-primary) 12%, transparent);
-    color: var(--color-primary);
-    font-size: var(--type-step-1);
-    font-weight: 600;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    background: rgba(0, 0, 0, 0.04);
+    color: var(--color-muted);
+    font-size: var(--type-xs);
+    font-weight: 500;
+    letter-spacing: 0.02em;
   }
 
   .project-card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--type-sm);
     font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: gap var(--duration-fast) var(--ease-out);
+  }
+
+  .project-card__link:visited {
     color: var(--color-primary);
   }
 
-  .project-card__link:hover,
-  .project-card__link:focus-visible {
-    text-decoration: underline;
+  .project-card__link:hover {
+    gap: var(--space-3);
+  }
+
+  .project-card__link svg {
+    transition: transform var(--duration-fast) var(--ease-out);
+  }
+
+  .project-card__link:hover svg {
+    transform: translate(2px, -2px);
+  }
+
+  @media (max-width: 640px) {
+    .projects__grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

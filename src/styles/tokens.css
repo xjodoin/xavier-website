@@ -1,63 +1,130 @@
 :root {
-  --color-primary: #1D4ED8;
-  --color-onPrimary: #FFFFFF;
-  --color-secondary: #10B981;
-  --color-onSecondary: #06281F;
-  --color-accent: #F59E0B;
-  --color-onAccent: #111827;
-  --color-bg: #F9FAFB;
-  --color-surface: #FFFFFF;
-  --color-text: #111827;
-  --color-muted: #6B7280;
-  --color-border: #E5E7EB;
-  --color-info: #0EA5E9;
-  --color-success: #16A34A;
-  --color-warning: #D97706;
-  --color-danger: #DC2626;
-  --color-link: #1D4ED8;
-  --color-linkVisited: #6D28D9;
-  --color-darkBg: #0B1021;
-  --color-darkSurface: #111827;
-  --color-darkText: #E5E7EB;
-  --color-darkMuted: #9CA3AF;
-  --color-darkBorder: #374151;
-  --color-darkPrimary: #60A5FA;
-  --color-darkOnPrimary: #FFFFFF;
-  --type-step-2: 0.64rem;
-  --type-step-1: 0.8rem;
-  --type-step0: 1rem;
-  --type-step1: 1.25rem;
-  --type-step2: 1.5625rem;
-  --type-step3: 1.9531rem;
-  --type-step4: 2.4414rem;
-  --type-step5: 3.0518rem;
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 20px;
-  --space-6: 24px;
-  --space-7: 28px;
-  --space-8: 32px;
-  --space-9: 36px;
-  --space-10: 40px;
-  --space-11: 44px;
-  --space-12: 48px;
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-}
+  /* Typography - SF Pro inspired with distinctive display font */
+  --font-body: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  --font-display: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'SF Mono', ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, monospace;
 
-[data-theme='dark'] {
-  --color-bg: var(--color-darkBg);
-  --color-surface: var(--color-darkSurface);
-  --color-text: var(--color-darkText);
-  --color-muted: var(--color-darkMuted);
-  --color-border: var(--color-darkBorder);
-  --color-primary: var(--color-darkPrimary);
-  --color-onPrimary: var(--color-darkOnPrimary);
+  /* Apple-inspired color palette - sophisticated & premium */
+  --color-primary: #0071e3;
+  --color-onPrimary: #ffffff;
+  --color-secondary: #86868b;
+  --color-onSecondary: #1d1d1f;
+  --color-accent: #2997ff;
+  --color-onAccent: #ffffff;
+
+  /* Backgrounds - layered depth */
+  --color-bg: #fbfbfd;
+  --color-surface: rgba(255, 255, 255, 0.72);
+  --color-surface-elevated: rgba(255, 255, 255, 0.85);
+  --color-text: #1d1d1f;
+  --color-text-secondary: #424245;
+  --color-muted: #86868b;
+
+  /* Borders & Dividers */
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-border-light: rgba(255, 255, 255, 0.5);
+  --color-divider: rgba(0, 0, 0, 0.04);
+
+  /* Semantic colors */
+  --color-info: #0071e3;
+  --color-success: #34c759;
+  --color-warning: #ff9f0a;
+  --color-danger: #ff3b30;
+  --color-link: #0066cc;
+  --color-linkHover: #0071e3;
+  --color-linkVisited: #5856d6;
+
+  /* Premium glassmorphism system */
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-bg-subtle: rgba(255, 255, 255, 0.5);
+  --glass-bg-elevated: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.7);
+  --glass-border-subtle: rgba(0, 0, 0, 0.06);
+  --glass-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.03),
+    0 2px 4px rgba(0, 0, 0, 0.04),
+    0 12px 24px rgba(0, 0, 0, 0.06);
+  --glass-shadow-elevated:
+    0 0 0 1px rgba(0, 0, 0, 0.04),
+    0 4px 8px rgba(0, 0, 0, 0.06),
+    0 24px 48px rgba(0, 0, 0, 0.12);
+  --glass-highlight: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0) 50%);
+  --glass-blur: 20px;
+  --glass-blur-strong: 40px;
+  --glass-saturation: 180%;
+
+  /* Ambient gradient colors - soft & ethereal */
+  --gradient-blue: rgba(0, 113, 227, 0.15);
+  --gradient-purple: rgba(88, 86, 214, 0.12);
+  --gradient-pink: rgba(255, 45, 85, 0.08);
+  --gradient-teal: rgba(50, 215, 195, 0.1);
+  --gradient-orange: rgba(255, 159, 10, 0.08);
+
+  /* Type scale - refined for readability */
+  --type-xs: 0.75rem;
+  --type-sm: 0.875rem;
+  --type-base: 1rem;
+  --type-md: 1.125rem;
+  --type-lg: 1.25rem;
+  --type-xl: 1.5rem;
+  --type-2xl: 2rem;
+  --type-3xl: 2.5rem;
+  --type-4xl: 3rem;
+  --type-5xl: 3.5rem;
+  --type-6xl: 4rem;
+  --type-hero: clamp(3rem, 8vw, 5.5rem);
+
+  /* Spacing - 4px base rhythm */
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* Border radius - Apple-style generous curves */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-3xl: 32px;
+  --radius-full: 9999px;
+
+  /* Shadows - layered depth system */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.12);
+  --shadow-2xl: 0 24px 64px rgba(0, 0, 0, 0.16);
+  --shadow-glow: 0 0 40px rgba(0, 113, 227, 0.15);
+  --shadow-glow-accent: 0 0 60px rgba(41, 151, 255, 0.2);
+
+  /* Transitions - smooth & natural */
+  --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+  --duration-slower: 600ms;
+
+  /* Z-index scale */
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
 }

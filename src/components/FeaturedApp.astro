@@ -1,31 +1,63 @@
 <section class="app" id="app">
-  <div class="container app__inner">
-    <div class="app__content">
-      <p class="app__eyebrow">Featured Product</p>
-      <h2 class="section-title">AI Plant Doctor</h2>
-      <p class="lead">
-        Diagnose plant issues in seconds by uploading a single photo. You’ll receive instant treatment guidance and preventive care suggestions backed by AI.
-      </p>
-      <ul class="app__list">
-        <li>Fast photo-based disease identification for gardeners and growers.</li>
-        <li>Personalized remediation steps tailored to each diagnosis.</li>
-        <li>Preventive care tips to keep plants resilient season after season.</li>
-      </ul>
-      <div class="app__actions">
-        <a class="btn btn-primary" href="https://theaiplantdoctor.com" target="_blank" rel="noreferrer">
-          Try AI Plant Doctor
-        </a>
-        <a class="btn btn-secondary" href="https://theaiplantdoctor.com" target="_blank" rel="noreferrer">
-          Learn more
-        </a>
+  <div class="container app__container">
+    <div class="app__inner">
+      <div class="app__content">
+        <div class="app__brand">
+          <img src="/images/ai-plant-doctor-logo.png" alt="AI Plant Doctor" class="app__logo" width="64" height="64" />
+          <div>
+            <p class="app__eyebrow">Featured Product</p>
+            <h2 class="app__title">AI Plant Doctor</h2>
+          </div>
+        </div>
+        <p class="app__description">
+          Diagnose plant issues in seconds by uploading a single photo. Receive treatment guidance, confidence scores, and preventive care tips tailored to your plant.
+        </p>
+        <ul class="app__features">
+          <li>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <circle cx="10" cy="10" r="10" fill="rgba(52, 199, 89, 0.1)"/>
+              <path d="M6 10l3 3 5-6" stroke="#34c759" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Rapid photo-based diagnosis built for gardeners and growers</span>
+          </li>
+          <li>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <circle cx="10" cy="10" r="10" fill="rgba(52, 199, 89, 0.1)"/>
+              <path d="M6 10l3 3 5-6" stroke="#34c759" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Clear remediation steps with actionable next moves</span>
+          </li>
+          <li>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <circle cx="10" cy="10" r="10" fill="rgba(52, 199, 89, 0.1)"/>
+              <path d="M6 10l3 3 5-6" stroke="#34c759" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Preventive care plans to keep plants resilient</span>
+          </li>
+        </ul>
+        <div class="app__actions">
+          <a class="btn btn-primary" href="https://theaiplantdoctor.com" target="_blank" rel="noreferrer">
+            <span>Try AI Plant Doctor</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a class="btn btn-secondary" href="https://theaiplantdoctor.com" target="_blank" rel="noreferrer">
+            Learn more
+          </a>
+        </div>
       </div>
-    </div>
-    <div class="app__card" aria-hidden="true">
       <div class="app__preview">
-        <div class="mockup">
-          <span class="mockup__badge">Demo</span>
-          <h3>Upload a photo</h3>
-          <p>AI Plant Doctor scans the sample leaf and suggests the most likely diagnosis.</p>
+        <div class="app__preview-glow"></div>
+        <div class="app__screenshot-frame">
+          <img
+            src="/images/ai-plant-doctor-screenshot.webp"
+            alt="AI Plant Doctor diagnosis result showing plant health analysis"
+            width="400"
+            height="600"
+            loading="lazy"
+            class="app__screenshot"
+          />
         </div>
       </div>
     </div>
@@ -34,69 +66,186 @@
 
 <style>
   .app {
-    padding-block: clamp(4rem, 10vw, 6rem);
+    padding-block: clamp(var(--space-16), 10vw, var(--space-24));
+    position: relative;
+  }
+
+  .app__container {
+    max-width: 1100px;
   }
 
   .app__inner {
+    position: relative;
     display: grid;
-    gap: var(--space-8);
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--space-12);
+    padding: var(--space-12);
+    border-radius: var(--radius-3xl);
+    background:
+      linear-gradient(135deg, rgba(52, 199, 89, 0.03) 0%, rgba(0, 113, 227, 0.03) 100%),
+      var(--glass-bg-elevated);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow-elevated);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+    overflow: hidden;
+  }
+
+  .app__content,
+  .app__preview {
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (min-width: 900px) {
+    .app__inner {
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+    }
+  }
+
+  .app__brand {
+    display: flex;
     align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+
+  .app__logo {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
   }
 
   .app__eyebrow {
+    font-size: var(--type-sm);
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    font-size: var(--type-step-1);
-    color: var(--color-muted);
+    color: var(--color-success);
+    margin-bottom: var(--space-1);
   }
 
-  .app__list {
-    list-style: disc;
-    padding-left: 1.2rem;
-    margin-block: var(--space-5);
-    color: var(--color-text);
+  .app__title {
+    font-size: clamp(var(--type-2xl), 4vw, var(--type-3xl));
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin: 0;
+    background: linear-gradient(135deg, var(--color-text) 0%, #34c759 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
-  .app__list li {
-    margin-bottom: var(--space-2);
+  .app__description {
+    font-size: var(--type-lg);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--space-8);
+  }
+
+  .app__features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-8);
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .app__features li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+
+  .app__features svg {
+    flex-shrink: 0;
+    margin-top: 2px;
   }
 
   .app__actions {
     display: flex;
-    gap: var(--space-3);
+    gap: var(--space-4);
     flex-wrap: wrap;
   }
 
-  .app__card {
-    background: linear-gradient(160deg, color-mix(in srgb, var(--color-primary) 40%, transparent), var(--color-surface));
-    padding: var(--space-6);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-md);
+  /* Screenshot Preview */
+  .app__preview {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  .mockup {
-    border-radius: var(--radius-lg);
-    background: rgba(255, 255, 255, 0.8);
-    padding: var(--space-5);
-    display: grid;
-    gap: var(--space-3);
-    color: #0f172a;
+  .app__preview-glow {
+    position: absolute;
+    inset: -40%;
+    background: radial-gradient(circle, rgba(52, 199, 89, 0.15) 0%, transparent 60%);
+    filter: blur(40px);
+    pointer-events: none;
   }
 
-  [data-theme='dark'] .mockup {
-    background: rgba(17, 24, 39, 0.9);
-    color: var(--color-darkText);
+  .app__screenshot-frame {
+    position: relative;
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.04),
+      0 8px 16px rgba(0, 0, 0, 0.08),
+      0 24px 48px rgba(0, 0, 0, 0.12);
+    transform: perspective(1000px) rotateY(-3deg) rotateX(2deg);
+    transition: transform var(--duration-slow) var(--ease-out);
   }
 
-  .mockup__badge {
-    align-self: start;
-    display: inline-flex;
-    padding: 0.3rem 0.65rem;
-    border-radius: 999px;
-    background: var(--color-secondary);
-    color: var(--color-onSecondary);
-    font-size: var(--type-step-2);
-    font-weight: 600;
+  .app__screenshot-frame:hover {
+    transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+  }
+
+  .app__screenshot-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .app__screenshot {
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    border-radius: inherit;
+  }
+
+  @media (max-width: 899px) {
+    .app__inner {
+      padding: var(--space-8);
+    }
+
+    .app__preview {
+      order: -1;
+    }
+
+    .app__screenshot-frame {
+      transform: none;
+    }
+
+    .app__screenshot-frame:hover {
+      transform: none;
+    }
+
+    .app__screenshot {
+      max-width: 280px;
+    }
+
+    .app__brand {
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+    }
   }
 </style>

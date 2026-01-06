@@ -1,116 +1,326 @@
 <section class="hero" id="top">
+  <div class="hero__ambient">
+    <div class="hero__orb hero__orb--1"></div>
+    <div class="hero__orb hero__orb--2"></div>
+    <div class="hero__orb hero__orb--3"></div>
+  </div>
   <div class="container hero__inner">
     <div class="hero__content">
-      <p class="hero__eyebrow">Software Engineer · AI Product Builder</p>
-      <h1>Building useful AI & web tools that help people notice what matters</h1>
-      <p class="hero__lead lead">
-        I’m Xavier Jodoin. I design and ship practical applications like AI Plant Doctor while maintaining open source tools that empower developers.
+      <p class="hero__eyebrow">
+        <span class="hero__eyebrow-dot"></span>
+        Software Engineer & AI Product Builder
+      </p>
+      <h1 class="hero__title">
+        Human-first AI products, crafted with care
+      </h1>
+      <p class="hero__lead">
+        I'm Xavier Jodoin. I partner with teams to turn ambitious ideas into reliable products, from the first prototype to the launch week and beyond.
       </p>
       <div class="hero__actions">
-        <a class="btn btn-primary" href="https://theaiplantdoctor.com" target="_blank" rel="noreferrer">
-          Try AI Plant Doctor
+        <a class="btn btn-primary hero__btn" href="https://theaiplantdoctor.com" target="_blank" rel="noreferrer">
+          <span>Try AI Plant Doctor</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </a>
-        <a class="btn btn-secondary" href="https://github.com/xjodoin" target="_blank" rel="noreferrer">
-          View GitHub
+        <a class="btn btn-secondary hero__btn" href="https://github.com/xjodoin" target="_blank" rel="noreferrer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+          <span>View GitHub</span>
         </a>
       </div>
     </div>
     <div class="hero__media">
-      <picture>
-        <source
-          type="image/avif"
-          srcset="
-            /images/xavier-hero-640w.avif 640w,
-            /images/xavier-hero-960w.avif 960w,
-            /images/xavier-hero-1280w.avif 1280w,
-            /images/xavier-hero-1600w.avif 1600w,
-            /images/xavier-hero-1920w.avif 1920w"
-          sizes="(max-width: 768px) 100vw, (max-width: 1100px) 45vw, 560px"
-        />
-        <source
-          type="image/webp"
-          srcset="
-            /images/xavier-hero-640w.webp 640w,
-            /images/xavier-hero-960w.webp 960w,
-            /images/xavier-hero-1280w.webp 1280w,
-            /images/xavier-hero-1600w.webp 1600w,
-            /images/xavier-hero-1920w.webp 1920w"
-          sizes="(max-width: 768px) 100vw, (max-width: 1100px) 45vw, 560px"
-        />
-        <img
-          src="/images/xavier-hero-1280w.webp"
-          alt="Portrait of Xavier Jodoin with a blue gradient backdrop"
-          width="1280"
-          height="731"
-          loading="eager"
-          fetchpriority="high"
-        />
-      </picture>
+      <div class="hero__media-glow"></div>
+      <div class="hero__media-frame">
+        <picture>
+          <source
+            type="image/avif"
+            srcset="
+              /images/xavier-hero-640w.avif 640w,
+              /images/xavier-hero-960w.avif 960w,
+              /images/xavier-hero-1280w.avif 1280w,
+              /images/xavier-hero-1600w.avif 1600w,
+              /images/xavier-hero-1920w.avif 1920w"
+            sizes="(max-width: 768px) 100vw, (max-width: 1100px) 45vw, 480px"
+          />
+          <source
+            type="image/webp"
+            srcset="
+              /images/xavier-hero-640w.webp 640w,
+              /images/xavier-hero-960w.webp 960w,
+              /images/xavier-hero-1280w.webp 1280w,
+              /images/xavier-hero-1600w.webp 1600w,
+              /images/xavier-hero-1920w.webp 1920w"
+            sizes="(max-width: 768px) 100vw, (max-width: 1100px) 45vw, 480px"
+          />
+          <img
+            src="/images/xavier-hero-1280w.webp"
+            alt="Portrait of Xavier Jodoin"
+            width="1280"
+            height="731"
+            loading="eager"
+            fetchpriority="high"
+            class="hero__img"
+          />
+        </picture>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
   .hero {
-    padding-block: clamp(4rem, 8vw, 6rem);
     position: relative;
-    background: radial-gradient(120% 120% at 15% 15%, color-mix(in srgb, var(--color-primary) 25%, transparent), transparent 55%),
-      linear-gradient(120deg, color-mix(in srgb, var(--color-secondary) 16%, transparent), transparent 70%);
+    padding-block: clamp(var(--space-16), 12vw, var(--space-32));
+    overflow: hidden;
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Ambient floating orbs */
+  .hero__ambient {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .hero__orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.6;
+    animation: orbFloat 20s ease-in-out infinite;
+  }
+
+  .hero__orb--1 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, var(--gradient-blue) 0%, transparent 70%);
+    top: -10%;
+    left: -10%;
+    animation-delay: 0s;
+  }
+
+  .hero__orb--2 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, var(--gradient-purple) 0%, transparent 70%);
+    top: 30%;
+    right: -5%;
+    animation-delay: -7s;
+  }
+
+  .hero__orb--3 {
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, var(--gradient-teal) 0%, transparent 70%);
+    bottom: 0;
+    left: 30%;
+    animation-delay: -14s;
+  }
+
+  @keyframes orbFloat {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(30px, -20px) scale(1.05);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.95);
+    }
   }
 
   .hero__inner {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--space-8);
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
     align-items: center;
+    position: relative;
+    z-index: 1;
   }
 
-  .hero__content h1 {
-    font-size: clamp(2.5rem, 5vw, 3.5rem);
-    line-height: 1.1;
-    margin-bottom: var(--space-4);
+  @media (min-width: 900px) {
+    .hero__inner {
+      grid-template-columns: 1.1fr 1fr;
+      gap: var(--space-16);
+    }
+  }
+
+  .hero__content {
+    animation: fadeInUp 0.8s var(--ease-out-expo) forwards;
   }
 
   .hero__eyebrow {
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-size: var(--type-step-1);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--type-sm);
+    font-weight: 500;
     color: var(--color-muted);
-    margin-bottom: var(--space-3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: var(--space-6);
+  }
+
+  .hero__eyebrow-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-success);
+    box-shadow: 0 0 12px var(--color-success);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.7;
+      transform: scale(1.1);
+    }
+  }
+
+  .hero__title {
+    font-size: var(--type-hero);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.02;
+    margin-bottom: var(--space-6);
+    background: linear-gradient(
+      135deg,
+      var(--color-text) 0%,
+      var(--color-text) 50%,
+      var(--color-primary) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .hero__lead {
-    margin-bottom: var(--space-6);
+    font-size: var(--type-lg);
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    max-width: 50ch;
+    margin-bottom: var(--space-10);
   }
 
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-3);
+    gap: var(--space-4);
   }
 
+  .hero__btn {
+    padding: var(--space-4) var(--space-8);
+  }
+
+  .hero__btn svg {
+    transition: transform var(--duration-fast) var(--ease-out);
+  }
+
+  .hero__btn:hover svg {
+    transform: translateX(3px);
+  }
+
+  /* Media section */
   .hero__media {
+    position: relative;
     display: flex;
     justify-content: center;
+    animation: scaleIn 1s var(--ease-out-expo) 0.2s forwards;
+    opacity: 0;
   }
 
-  .hero__media picture {
-    width: min(560px, 100%);
-    border-radius: clamp(var(--radius-lg), 4vw, 32px);
+  .hero__media-glow {
+    position: absolute;
+    inset: -20%;
+    background: radial-gradient(
+      circle at center,
+      var(--gradient-blue) 0%,
+      var(--gradient-purple) 40%,
+      transparent 70%
+    );
+    filter: blur(60px);
+    opacity: 0.5;
+    animation: glowPulse 6s ease-in-out infinite;
+  }
+
+  @keyframes glowPulse {
+    0%, 100% {
+      opacity: 0.4;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.6;
+      transform: scale(1.05);
+    }
+  }
+
+  .hero__media-frame {
+    position: relative;
+    width: min(480px, 100%);
+    border-radius: var(--radius-3xl);
     overflow: hidden;
-    box-shadow: var(--shadow-lg);
+    background: var(--glass-bg);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.03),
+      0 4px 8px rgba(0, 0, 0, 0.04),
+      0 16px 32px rgba(0, 0, 0, 0.08),
+      0 32px 64px rgba(0, 0, 0, 0.08);
+    transform: perspective(1000px) rotateY(-2deg) rotateX(1deg);
+    transition: transform var(--duration-slow) var(--ease-out);
   }
 
-  .hero__media img {
+  .hero__media-frame:hover {
+    transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+  }
+
+  .hero__media-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.4) 0%,
+      transparent 50%
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .hero__img {
     display: block;
     width: 100%;
     height: auto;
     object-fit: cover;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 899px) {
+    .hero {
+      min-height: auto;
+      padding-block: clamp(var(--space-12), 10vw, var(--space-20));
+    }
+
     .hero__inner {
       text-align: center;
+    }
+
+    .hero__eyebrow {
+      justify-content: center;
+    }
+
+    .hero__lead {
+      margin-inline: auto;
     }
 
     .hero__actions {
@@ -119,6 +329,16 @@
 
     .hero__media {
       order: -1;
+      margin-bottom: var(--space-4);
+    }
+
+    .hero__media-frame {
+      transform: none;
+      max-width: 320px;
+    }
+
+    .hero__media-frame:hover {
+      transform: none;
     }
   }
 </style>

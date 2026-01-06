@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import NavBar from '../../components/NavBar.astro';
+import Footer from '../../components/Footer.astro';
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 
@@ -17,7 +19,7 @@ interface Props {
 
 const { post } = Astro.props as Props;
 const { Content } = await post.render();
-const published = post.data.publishDate.toLocaleDateString(undefined, {
+const published = post.data.publishDate.toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',
   day: 'numeric'
@@ -30,46 +32,92 @@ const canonical = `https://xavierjodoin.com/blog/${post.slug}/`;
   pageType="article"
   canonical={canonical}
 >
+  <NavBar />
   <main id="main" class="blog-post">
     <div class="container blog-post__container">
       <header class="blog-post__header">
-        <a class="blog-post__back" href="/blog">← Back to all posts</a>
-        <p class="blog-post__date">{published}</p>
+        <a class="blog-post__back" href="/blog">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M10 13L5 8L10 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Back to all posts</span>
+        </a>
+        <div class="blog-post__meta">
+          <time class="blog-post__date" datetime={post.data.publishDate.toISOString()}>{published}</time>
+          <ul class="blog-post__tags">
+            {post.data.tags.map((tag) => (
+              <li>{tag}</li>
+            ))}
+          </ul>
+        </div>
         <h1>{post.data.title}</h1>
-        <p class="lead">{post.data.description}</p>
-        <ul class="blog-post__tags">
-          {post.data.tags.map((tag) => (
-            <li>{tag}</li>
-          ))}
-        </ul>
+        <p class="blog-post__description">{post.data.description}</p>
       </header>
-      <article class="blog-post__content">
+      <article class="blog-post__content glass-elevated">
         <Content />
       </article>
     </div>
   </main>
+  <Footer />
 </BaseLayout>
 
 <style>
   .blog-post {
-    padding-block: clamp(3rem, 8vw, 5rem);
+    padding-block: clamp(var(--space-12), 8vw, var(--space-20));
+  }
+
+  .blog-post__container {
+    max-width: 800px;
   }
 
   .blog-post__header {
-    display: grid;
-    gap: var(--space-3);
-    margin-bottom: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    margin-bottom: var(--space-10);
+    animation: fadeInUp 0.6s var(--ease-out) forwards;
   }
 
   .blog-post__back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
     color: var(--color-muted);
     font-weight: 500;
+    font-size: var(--type-sm);
+    text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-out), gap var(--duration-fast) var(--ease-out);
+    margin-bottom: var(--space-4);
+  }
+
+  .blog-post__back:hover {
+    color: var(--color-text);
+    gap: var(--space-3);
+  }
+
+  .blog-post__back:visited {
+    color: var(--color-muted);
+  }
+
+  .blog-post__back svg {
+    transition: transform var(--duration-fast) var(--ease-out);
+  }
+
+  .blog-post__back:hover svg {
+    transform: translateX(-3px);
+  }
+
+  .blog-post__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
   }
 
   .blog-post__date {
-    margin: 0;
     color: var(--color-muted);
-    font-size: var(--type-step-1);
+    font-size: var(--type-sm);
+    font-weight: 500;
   }
 
   .blog-post__tags {
@@ -82,40 +130,128 @@ const canonical = `https://xavierjodoin.com/blog/${post.slug}/`;
   }
 
   .blog-post__tags li {
-    padding: 0.2rem 0.6rem;
-    border-radius: 999px;
-    background: color-mix(in srgb, var(--color-secondary) 14%, transparent);
-    color: var(--color-secondary);
-    font-size: var(--type-step-1);
-    font-weight: 600;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    background: rgba(0, 113, 227, 0.08);
+    color: var(--color-primary);
+    font-size: var(--type-xs);
+    font-weight: 500;
+  }
+
+  .blog-post__header h1 {
+    font-size: clamp(var(--type-2xl), 5vw, var(--type-4xl));
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin: 0;
+    background: linear-gradient(135deg, var(--color-text) 0%, var(--color-text-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .blog-post__description {
+    font-size: var(--type-lg);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin: 0;
+    max-width: 65ch;
   }
 
   .blog-post__content {
     display: grid;
-    gap: 1.2rem;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--color-border);
-    background: var(--color-surface);
-    padding: clamp(1.8rem, 4vw, 2.8rem);
-    box-shadow: var(--shadow-sm);
+    gap: var(--space-6);
+    border-radius: var(--radius-2xl);
+    padding: clamp(var(--space-8), 5vw, var(--space-12));
+    animation: fadeInUp 0.6s var(--ease-out) 0.1s backwards;
   }
 
   .blog-post__content :global(h2) {
-    font-size: var(--type-step2);
+    font-size: var(--type-xl);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-top: var(--space-4);
+    color: var(--color-text);
+  }
+
+  .blog-post__content :global(h3) {
+    font-size: var(--type-lg);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-top: var(--space-3);
+    color: var(--color-text);
   }
 
   .blog-post__content :global(p) {
     margin: 0;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
   }
 
   .blog-post__content :global(ul),
   .blog-post__content :global(ol) {
-    padding-left: 1.4rem;
+    padding-left: var(--space-6);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+
+  .blog-post__content :global(li) {
+    margin-bottom: var(--space-2);
   }
 
   .blog-post__content :global(blockquote) {
-    border-left: 4px solid var(--color-primary);
-    padding-left: var(--space-4);
-    color: color-mix(in srgb, var(--color-text) 80%, var(--color-muted) 20%);
+    border-left: 3px solid var(--color-primary);
+    padding-left: var(--space-6);
+    margin-left: 0;
+    color: var(--color-text-secondary);
+    font-style: italic;
+  }
+
+  .blog-post__content :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background: rgba(0, 0, 0, 0.04);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+  }
+
+  .blog-post__content :global(pre) {
+    background: var(--color-text);
+    color: var(--color-bg);
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: var(--type-sm);
+    line-height: 1.6;
+  }
+
+  .blog-post__content :global(pre code) {
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    color: inherit;
+    font-size: inherit;
+  }
+
+  .blog-post__content :global(a) {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .blog-post__content :global(a:hover) {
+    text-decoration: none;
+  }
+
+  .blog-post__content :global(img) {
+    border-radius: var(--radius-lg);
+    margin-block: var(--space-4);
+  }
+
+  .blog-post__content :global(hr) {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin-block: var(--space-8);
   }
 </style>

@@ -1,34 +1,54 @@
 <section class="about" id="about">
-  <div class="container about__inner">
-    <div class="about__intro">
-      <h2 class="section-title">Professional focus</h2>
+  <div class="container">
+    <header class="about__header">
+      <p class="about__eyebrow">Professional Focus</p>
+      <h2 class="section-title">Building products that matter</h2>
       <p class="lead">
-        Xavier blends product strategy with hands-on engineering, guiding ideas from discovery to launch while mentoring teams on sustainable delivery practices.
+        I connect product strategy with hands-on engineering, helping teams ship dependable software with thoughtful AI features, clear roadmaps, and calm execution.
       </p>
-    </div>
+    </header>
     <div class="about__grid">
-      <article>
+      <article class="about__card glass">
+        <div class="about__card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+        </div>
         <h3>What I do</h3>
         <ul>
-          <li>Design and build AI-enabled web applications from prototype to production.</li>
-          <li>Lead technical discovery, architecture reviews, and iterative delivery with cross-functional teams.</li>
-          <li>Maintain open source projects that improve developer experience and observability.</li>
+          <li>Translate fuzzy ideas into testable prototypes, then scale them into production systems</li>
+          <li>Guide architecture, data strategy, and UX decisions for AI-powered web products</li>
+          <li>Support teams with pragmatic delivery plans and high-trust collaboration</li>
         </ul>
       </article>
-      <article>
+      <article class="about__card glass">
+        <div class="about__card-icon about__card-icon--purple">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
+          </svg>
+        </div>
         <h3>Expertise</h3>
         <ul>
-          <li>TypeScript, Astro, React, and Flutter for front-end experiences.</li>
-          <li>Java, Kotlin, and cloud-native services for resilient backends.</li>
-          <li>Prompt engineering, LLM evaluation, and data workflows for applied AI.</li>
+          <li>TypeScript, Astro, React, and Flutter for modern front-end experiences</li>
+          <li>Java, Kotlin, and cloud-native services for resilient backends</li>
+          <li>LLM evaluation, prompt systems, and data workflows for applied AI</li>
         </ul>
       </article>
-      <article>
+      <article class="about__card glass">
+        <div class="about__card-icon about__card-icon--teal">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+            <path d="M12 6v6l4 2"/>
+          </svg>
+        </div>
         <h3>Values</h3>
         <ul>
-          <li>Accessible, inclusive products with measurable impact.</li>
-          <li>Open collaboration and sharing through community projects.</li>
-          <li>Continuous learning fueled by experimentation in and out of the lab.</li>
+          <li>Accessible, inclusive experiences with measurable impact</li>
+          <li>Transparent collaboration and knowledge sharing</li>
+          <li>Continuous learning through real-world experiments</li>
         </ul>
       </article>
     </div>
@@ -37,37 +57,95 @@
 
 <style>
   .about {
-    padding-block: clamp(3.5rem, 8vw, 5.5rem);
+    padding-block: clamp(var(--space-16), 10vw, var(--space-24));
+    position: relative;
   }
 
-  .about__inner {
-    display: grid;
-    gap: var(--space-6);
+  .about__header {
+    text-align: center;
+    max-width: 720px;
+    margin-inline: auto;
+    margin-bottom: var(--space-16);
+  }
+
+  .about__eyebrow {
+    font-size: var(--type-sm);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-primary);
+    margin-bottom: var(--space-4);
+  }
+
+  .about__header .lead {
+    margin-inline: auto;
   }
 
   .about__grid {
     display: grid;
+    gap: var(--space-6);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+
+  .about__card {
+    padding: var(--space-8);
+    border-radius: var(--radius-2xl);
+    display: grid;
     gap: var(--space-5);
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    align-content: start;
   }
 
-  .about__grid article {
-    padding: var(--space-5);
+  .about__card-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: var(--radius-lg);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    box-shadow: var(--shadow-sm);
+    background: linear-gradient(135deg, rgba(0, 113, 227, 0.1), rgba(41, 151, 255, 0.1));
+    color: var(--color-primary);
   }
 
-  .about__grid h3 {
-    margin-top: 0;
-    margin-bottom: var(--space-3);
+  .about__card-icon--purple {
+    background: linear-gradient(135deg, rgba(88, 86, 214, 0.1), rgba(175, 82, 222, 0.1));
+    color: #5856d6;
   }
 
-  .about__grid ul {
-    padding-left: 1.2rem;
+  .about__card-icon--teal {
+    background: linear-gradient(135deg, rgba(50, 215, 195, 0.1), rgba(52, 199, 89, 0.1));
+    color: #34c759;
+  }
+
+  .about__card h3 {
+    font-size: var(--type-xl);
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .about__card ul {
+    list-style: none;
+    padding: 0;
     margin: 0;
     display: grid;
-    gap: var(--space-2);
+    gap: var(--space-3);
+  }
+
+  .about__card li {
+    font-size: var(--type-base);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    padding-left: var(--space-6);
+    position: relative;
+  }
+
+  .about__card li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-border);
   }
 </style>

@@ -53,6 +53,14 @@ src/
 4. Push to the `main` branch. The workflow at `.github/workflows/firebase-hosting.yml` runs `npm run build` and deploys to Firebase Hosting.
    - Manual deploy alternative: `firebase deploy --only hosting` after running `npm run build` locally.
 
+## Analytics
+- Provide a Google Analytics 4 Measurement ID via environment variable `PUBLIC_GOOGLE_ANALYTICS_ID`. Astro automatically injects the `gtag.js` snippet when the variable is present at build time.
+- Locally you can add it in an `.env` file (ignored by Git):
+  ```bash
+  echo "PUBLIC_GOOGLE_ANALYTICS_ID=G-XXXXXXXXXX" >> .env
+  ```
+- Avoid committing real analytics IDs to version control; rely on environment variables in hosting/CD pipelines.
+
 ## Responsive Hero Assets
 The hero portrait and its responsive variants live in `public/images/`. Use the `<picture>` element in `Hero.astro` as a reference if you need to swap imagery or add additional sizes.
 
