@@ -1,11 +1,10 @@
 # Xavier Jodoin — Personal Site
 
-Static Astro site showcasing professional experience, open source work, the AI Plant Doctor app, and a blog. The project ships preconfigured design tokens, responsive hero imagery, content collections for posts, and Firebase Hosting deployment via GitHub Actions.
+Static Astro site showcasing professional experience, open source work, the AI Plant Doctor app, and a blog. The project ships preconfigured design tokens, responsive hero imagery, content collections for posts, and CI/CD-ready build tooling.
 
 ## Tech Stack
 - [Astro](https://astro.build/) 4.x (static generation)
 - TypeScript for content schemas and utilities
-- Firebase Hosting for deployment and CDN
 - GitHub Actions for CI/CD
 
 ## Structure
@@ -45,13 +44,6 @@ src/
 - Manage featured projects through `src/data/projects.ts`.
 - Global colors, typography scale, and spacing live in `src/styles/tokens.css`.
 - Shared button, layout, and accessibility styles are defined in `src/styles/globals.css`.
-
-## Firebase Deployment
-1. Create a Firebase project (e.g., `xavierjodoin-site`) and initialize Hosting for static sites.
-2. Update `.firebaserc` with the chosen project id.
-3. Generate a service account key (`Firebase Hosting Admin`), base64-encode or paste JSON into the GitHub secret `FIREBASE_SERVICE_ACCOUNT`. Add `FIREBASE_PROJECT_ID` with the same id.
-4. Push to the `main` branch. The workflow at `.github/workflows/firebase-hosting.yml` runs `npm run build` and deploys to Firebase Hosting.
-   - Manual deploy alternative: `firebase deploy --only hosting` after running `npm run build` locally.
 
 ## Analytics
 - Provide a Google Analytics 4 Measurement ID via environment variable `PUBLIC_GOOGLE_ANALYTICS_ID`. Astro automatically injects the `gtag.js` snippet when the variable is present at build time.
