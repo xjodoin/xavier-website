@@ -1,21 +1,21 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import NavBar from '../components/NavBar.astro';
-import Hero from '../components/Hero.astro';
-import About from '../components/About.astro';
-import FeaturedApp from '../components/FeaturedApp.astro';
-import ProjectsGrid from '../components/ProjectsGrid.astro';
-import BlogTeaser from '../components/BlogTeaser.astro';
-import Footer from '../components/Footer.astro';
+import HomePage from '../components/HomePage.astro';
+import { absolute } from '../i18n/config';
+import { home } from '../i18n/content';
+import { faqPage, webPage } from '../i18n/schema';
+
+const locale = 'en';
+const c = home[locale];
+const path = '/';
 ---
-<BaseLayout>
-  <NavBar />
-  <main id="main">
-    <Hero />
-    <About />
-    <ProjectsGrid />
-    <FeaturedApp />
-    <BlogTeaser />
-  </main>
-  <Footer />
+<BaseLayout
+  title={c.seo.title}
+  description={c.seo.description}
+  locale={locale}
+  path={path}
+  alternates={{ en: '/', fr: '/fr/' }}
+  schema={[...webPage({ path, title: c.seo.title, description: c.seo.description, locale }), faqPage(c.faq.items, absolute(path))]}
+>
+  <HomePage locale={locale} />
 </BaseLayout>

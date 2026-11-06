@@ -1,0 +1,458 @@
+---
+import Icon from './Icon.astro';
+import Faq from './Faq.astro';
+import { CONTACT_EMAIL, homePath, mailto, type Locale } from '../i18n/config';
+import { home, services, servicePath, type Service } from '../i18n/content';
+
+interface Props {
+  service: Service;
+  locale: Locale;
+}
+const { service: s, locale } = Astro.props;
+const c = home[locale];
+const fr = locale === 'fr';
+const others = services.filter((o) => o.id !== s.id);
+const L = {
+  home: fr ? 'Accueil' : 'Home',
+  services: 'Services',
+  eyebrow: fr ? 'Service · Montréal et partout au Québec' : 'Service · Montréal and across Québec',
+  secondary: fr ? 'Comment ça marche' : 'How it works',
+  faq: fr ? 'Questions fréquentes' : 'Frequently asked questions',
+  others: fr ? 'Autres services' : 'Other services',
+  ctaTitle: fr ? 'Commençons par un appel de 30 minutes.' : 'Let’s start with a 30-minute call.',
+  ctaBody: fr
+    ? "Gratuit, sans engagement, en français ou en anglais. Apportez un processus ou une idée; vous repartez avec un avis franc."
+    : 'Free, no commitment, in English or French. Bring one workflow or idea and leave with an honest opinion.',
+  email: fr ? 'Ou écrivez à' : 'Or email'
+};
+---
+<section class="svc-hero">
+  <div class="container">
+    <nav class="crumbs" aria-label={fr ? "Fil d'Ariane" : 'Breadcrumb'}>
+      <ol>
+        <li><a href={homePath[locale]}>{L.home}</a></li>
+        <li><a href={`${homePath[locale]}#services`}>{L.services}</a></li>
+        <li aria-current="page">{s.name[locale]}</li>
+      </ol>
+    </nav>
+    <div class="svc-hero__grid">
+      <div>
+        <p class="eyebrow">{L.eyebrow}</p>
+        <h1 class="svc-hero__title">{s.h1[locale]}</h1>
+        <p class="svc-hero__tagline serif">{s.tagline[locale]}</p>
+      </div>
+      <div class="svc-hero__side">
+        <p class="lead">{s.intro[locale]}</p>
+        <div class="svc-hero__actions">
+          <a class="btn btn-accent" href={mailto(locale)}>
+            {c.hero.primary}
+            <Icon name="arrow" size={18} />
+          </a>
+          <a class="btn btn-ghost" href="#how">{L.secondary}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="container svc-split">
+    <h2 class="h-section reveal">{s.problemTitle[locale]}</h2>
+    <ol class="signs reveal">
+      {s.problems[locale].map((p, i) => (
+        <li>
+          <span class="signs__num">{String(i + 1).padStart(2, '0')}</span>
+          <p>{p}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<section class="section" id="how">
+  <div class="container">
+    <header class="section-head reveal">
+      <h2 class="h-section">{s.useCasesTitle[locale]}</h2>
+    </header>
+    <div class="uses">
+      {s.useCases[locale].map((u) => (
+        <article class="card use reveal">
+          <h3>{u.title}</h3>
+          <p>{u.body}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="container svc-split">
+    <div class="reveal">
+      <h2 class="h-section">{s.deliverablesTitle[locale]}</h2>
+      <ul class="check-list deliverables">
+        {s.deliverables[locale].map((d) => <li>{d}</li>)}
+      </ul>
+    </div>
+    <div class="proof reveal">
+      <h2 class="proof__title">{s.proofTitle[locale]}</h2>
+      {s.proof[locale].map((p) => (
+        <article class="card proof__item">
+          <h3>{p.title}</h3>
+          <p>{p.body}</p>
+          {p.href && (
+            <a class="link-arrow" href={p.href} target="_blank" rel="noopener">
+              {new URL(p.href).hostname.replace('www.', '')} <Icon name="arrow-up-right" size={16} />
+            </a>
+          )}
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="eyebrow">{c.process.eyebrow}</p>
+      <h2 class="h-section">{c.process.title}</h2>
+    </header>
+    <ol class="steps reveal">
+      {c.process.steps.map((st, i) => (
+        <li>
+          <span>{String(i + 1).padStart(2, '0')}</span>
+          <h3>{st.title}</h3>
+          <p>{st.body}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="container narrow">
+    <h2 class="h-section reveal faq-title">{L.faq}</h2>
+    <div class="reveal"><Faq items={[...s.faq[locale], ...c.faq.items.slice(1, 3)]} /></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="h-section reveal others-title">{L.others}</h2>
+    <div class="others">
+      {others.map((o) => (
+        <a class="card other reveal" href={servicePath(o, locale)}>
+          <span class="other__icon"><Icon name={o.icon} size={24} /></span>
+          <span class="other__text">
+            <strong>{o.name[locale]}</strong>
+            <span>{o.tagline[locale]}</span>
+          </span>
+          <Icon name="arrow" size={20} />
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="svc-cta">
+  <div class="container svc-cta__inner reveal">
+    <h2>{L.ctaTitle}</h2>
+    <p>{L.ctaBody}</p>
+    <div class="svc-cta__actions">
+      <a class="btn btn-accent" href={mailto(locale)}>{c.contact.primary} <Icon name="arrow" size={18} /></a>
+      <span>{L.email} <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .svc-hero {
+    padding-block: var(--space-8) var(--section);
+  }
+
+  .crumbs ol {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    font-size: 0.875rem;
+    color: var(--muted);
+    margin-bottom: clamp(var(--space-10), 6vw, var(--space-20));
+  }
+
+  .crumbs li:not(:last-child)::after {
+    content: '/';
+    margin-left: var(--space-2);
+    color: var(--line-strong);
+  }
+
+  .crumbs a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  .crumbs a:hover {
+    color: var(--ink);
+    text-decoration: underline;
+  }
+
+  .svc-hero__grid {
+    display: grid;
+    gap: var(--space-10);
+  }
+
+  @media (min-width: 960px) {
+    .svc-hero__grid {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: end;
+      gap: var(--space-16);
+    }
+  }
+
+  .svc-hero__title {
+    margin-top: var(--space-5);
+    font-size: var(--step-5);
+    letter-spacing: -0.04em;
+    line-height: 1.02;
+  }
+
+  .svc-hero__tagline {
+    margin-top: var(--space-5);
+    font-size: var(--step-3);
+    color: var(--accent);
+    line-height: 1.15;
+  }
+
+  .svc-hero__side {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  .svc-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .svc-split {
+    display: grid;
+    gap: var(--space-10);
+  }
+
+  @media (min-width: 900px) {
+    .svc-split {
+      grid-template-columns: 1fr 1.2fr;
+      gap: var(--space-16);
+      align-items: start;
+    }
+  }
+
+  .signs {
+    list-style: none;
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .signs li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-5);
+    padding: var(--space-6);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    font-size: var(--step-1);
+  }
+
+  .signs__num {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--accent);
+    padding-top: 0.3rem;
+  }
+
+  .uses {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 700px) {
+    .uses {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .uses {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .use {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+  }
+
+  .use h3 {
+    font-size: var(--step-1);
+  }
+
+  .use p,
+  .proof__item p {
+    color: var(--ink-2);
+  }
+
+  .deliverables {
+    margin-top: var(--space-8);
+    font-size: var(--step-1);
+  }
+
+  .proof {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .proof__title {
+    font-size: var(--step-2);
+  }
+
+  .proof__item {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .proof__item h3 {
+    font-size: var(--step-1);
+  }
+
+  .steps {
+    list-style: none;
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  @media (min-width: 800px) {
+    .steps {
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-6);
+    }
+  }
+
+  .steps li {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+    padding-top: var(--space-5);
+    border-top: 2px solid var(--ink);
+  }
+
+  .steps span {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--accent);
+  }
+
+  .steps h3 {
+    font-size: var(--step-2);
+  }
+
+  .steps p {
+    color: var(--ink-2);
+  }
+
+  .narrow {
+    max-width: 920px;
+  }
+
+  .faq-title,
+  .others-title {
+    margin-bottom: var(--space-10);
+  }
+
+  .others {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 800px) {
+    .others {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .other {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: var(--space-5);
+    align-items: center;
+    color: var(--ink);
+    text-decoration: none;
+    transition: border-color var(--base) var(--ease), transform var(--base) var(--ease);
+  }
+
+  .other:hover {
+    color: var(--ink);
+    border-color: var(--ink);
+    transform: translateY(-2px);
+  }
+
+  .other__icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius);
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  .other__text {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .other__text strong {
+    font-size: var(--step-1);
+  }
+
+  .other__text span {
+    color: var(--ink-2);
+    font-size: 0.95rem;
+  }
+
+  .svc-cta {
+    background: var(--ink);
+    color: var(--bg);
+  }
+
+  .svc-cta__inner {
+    display: grid;
+    gap: var(--space-5);
+    padding-block: var(--section);
+  }
+
+  .svc-cta h2 {
+    font-size: var(--step-4);
+    letter-spacing: -0.035em;
+    max-width: 18ch;
+  }
+
+  .svc-cta p {
+    font-size: var(--step-1);
+    max-width: 56ch;
+    opacity: 0.85;
+  }
+
+  .svc-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4) var(--space-8);
+    margin-top: var(--space-4);
+  }
+
+  .svc-cta__actions a:not(.btn) {
+    color: var(--bg);
+    font-weight: 600;
+  }
+</style>

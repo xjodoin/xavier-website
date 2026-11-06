@@ -1,0 +1,1148 @@
+---
+import { getCollection } from 'astro:content';
+import Icon from './Icon.astro';
+import AgentFlow from './AgentFlow.astro';
+import Faq from './Faq.astro';
+import { CONTACT_EMAIL, mailto, type Locale } from '../i18n/config';
+import { home, openSource, products, serviceById, servicePath, services, ui } from '../i18n/content';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const c = home[locale];
+const t = ui[locale];
+const models = serviceById('models');
+const posts = (await getCollection('blog'))
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
+  .slice(0, 3);
+const dateFmt = new Intl.DateTimeFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', { year: 'numeric', month: 'long', day: 'numeric' });
+const featured = products.find((p) => p.featured)!;
+const others = products.filter((p) => !p.featured);
+---
+
+<!-- Hero -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="container hero__grid">
+    <div class="hero__copy">
+      <p class="hero__status">
+        <span class="hero__dot" aria-hidden="true"></span>
+        {c.hero.eyebrow}
+      </p>
+      <h1 id="hero-title" class="h-display">
+        {c.hero.titleA} <em class="serif hero__em">{c.hero.titleEm}</em> {c.hero.titleB}
+      </h1>
+      <p class="lead hero__lead">{c.hero.lead}</p>
+      <div class="hero__actions">
+        <a class="btn btn-accent" href={mailto(locale)}>
+          {c.hero.primary}
+          <Icon name="arrow" size={18} />
+        </a>
+        <a class="btn btn-ghost" href="#services">{c.hero.secondary}</a>
+      </div>
+    </div>
+    <figure class="hero__portrait">
+      <picture>
+        <source
+          type="image/avif"
+          srcset="/images/xavier-portrait-480w.avif 480w, /images/xavier-portrait-800w.avif 800w, /images/xavier-portrait-1080w.avif 1080w"
+          sizes="(max-width: 900px) 300px, 420px"
+        />
+        <img
+          src="/images/xavier-portrait-800w.webp"
+          srcset="/images/xavier-portrait-480w.webp 480w, /images/xavier-portrait-800w.webp 800w, /images/xavier-portrait-1080w.webp 1080w"
+          sizes="(max-width: 900px) 300px, 420px"
+          alt={c.hero.portraitAlt}
+          width="800"
+          height="1067"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </picture>
+      <figcaption>
+        <Icon name="pin" size={14} />
+        Montréal, QC
+      </figcaption>
+    </figure>
+  </div>
+  <div class="container">
+    <dl class="facts">
+      {c.hero.facts.map((f) => (
+        <div class="facts__item">
+          <dt>{f.label}</dt>
+          <dd>{f.value}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<!-- Services -->
+<section class="section" id="services" aria-labelledby="services-title">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="eyebrow">{c.services.eyebrow}</p>
+      <h2 id="services-title" class="h-section">{c.services.title}</h2>
+      <p class="lead">{c.services.lead}</p>
+    </header>
+    <div class="services">
+      {services.map((s, i) => (
+        <article class:list={['service reveal', { 'service--accent': s.id === 'consulting' }]}>
+          <div class="service__top">
+            <span class="service__num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="service__icon"><Icon name={s.icon} size={26} /></span>
+          </div>
+          <h3 class="service__name">{s.name[locale]}</h3>
+          <p class="service__tagline">{s.tagline[locale]}</p>
+          <p class="service__summary">{s.summary[locale]}</p>
+          <ul class="service__bullets">
+            {s.bullets[locale].map((b) => <li>{b}</li>)}
+          </ul>
+          <a class="service__link" href={servicePath(s, locale)}>
+            {t.readMore}<span class="sr-only">: {s.name[locale]}</span>
+            <Icon name="arrow" size={18} />
+          </a>
+        </article>
+      ))}
+    </div>
+    <div class="principles reveal">
+      <p class="principles__title">{c.services.principlesTitle}</p>
+      <ul>
+        {c.services.principles.map((p) => <li>{p}</li>)}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Agent flow -->
+<section class="section section--tint" aria-labelledby="flow-title">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="eyebrow">{c.flow.eyebrow}</p>
+      <h2 id="flow-title" class="h-section">{c.flow.title}</h2>
+      <p class="lead">{c.flow.lead}</p>
+    </header>
+    <div class="reveal">
+      <AgentFlow steps={c.flow.steps} />
+    </div>
+  </div>
+</section>
+
+<!-- Process -->
+<section class="section" id="process" aria-labelledby="process-title">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="eyebrow">{c.process.eyebrow}</p>
+      <h2 id="process-title" class="h-section">{c.process.title}</h2>
+    </header>
+    <ol class="process">
+      {c.process.steps.map((s, i) => (
+        <li class="process__step reveal">
+          <span class="process__num">{String(i + 1).padStart(2, '0')}</span>
+          <h3>{s.title}</h3>
+          <p>{s.body}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<!-- Work -->
+<section class="section section--tint" id="work" aria-labelledby="work-title">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="eyebrow">{c.work.eyebrow}</p>
+      <h2 id="work-title" class="h-section">{c.work.title}</h2>
+      <p class="lead">{c.work.lead}</p>
+    </header>
+    <div class="work">
+      <article class="product product--featured reveal">
+        <div class="product__body">
+          <div class="product__brand">
+            <img src="/images/ai-plant-doctor-logo-112.webp" alt="" width="56" height="56" loading="lazy" />
+            <h3>{featured.name}</h3>
+          </div>
+          <p>{featured.body[locale]}</p>
+          <ul class="chip-list">
+            {featured.stack.map((s) => <li class="chip">{s}</li>)}
+          </ul>
+          <a class="link-arrow" href={featured.href} target="_blank" rel="noopener">
+            {t.visit} theaiplantdoctor.com <Icon name="arrow-up-right" size={18} />
+          </a>
+        </div>
+        <div class="product__phones">
+          {featured.images?.map((img) => (
+            <img src={img.src} alt={img.alt[locale]} width={img.width} height={img.height} loading="lazy" decoding="async" />
+          ))}
+        </div>
+      </article>
+      {others.map((p) => (
+        <article class="product reveal">
+          {p.images?.[0] && (
+            <div class:list={['product__media', `product__media--${p.images[0].kind}`]}>
+              <img src={p.images[0].src} alt={p.images[0].alt[locale]} width={p.images[0].width} height={p.images[0].height} loading="lazy" decoding="async" />
+            </div>
+          )}
+          <h3>{p.name}</h3>
+          <p>{p.body[locale]}</p>
+          <ul class="chip-list">
+            {p.stack.map((s) => <li class="chip">{s}</li>)}
+          </ul>
+          <a class="link-arrow" href={p.href} target="_blank" rel="noopener">
+            {new URL(p.href).hostname} <Icon name="arrow-up-right" size={18} />
+          </a>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Models -->
+<section class="section" id="models" aria-labelledby="models-title">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="eyebrow">{c.models.eyebrow}</p>
+      <h2 id="models-title" class="h-section">{c.models.title}</h2>
+      <p class="lead">{models.summary[locale]}</p>
+    </header>
+    <div class="cases">
+      {models.proof[locale].map((p) => (
+        <article class="card case reveal">
+          <h3>{p.title}</h3>
+          <p>{p.body}</p>
+          {p.href && (
+            <a class="link-arrow" href={p.href} target="_blank" rel="noopener">
+              {new URL(p.href).hostname.replace('www.', '')} <Icon name="arrow-up-right" size={18} />
+            </a>
+          )}
+        </article>
+      ))}
+    </div>
+    <p class="cases__more reveal">
+      <a class="link-arrow" href={servicePath(models, locale)}>
+        {models.name[locale]} — {t.readMore} <Icon name="arrow" size={18} />
+      </a>
+    </p>
+  </div>
+</section>
+
+<!-- Open source -->
+<section class="section section--tint" aria-labelledby="oss-title">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="eyebrow">{c.oss.eyebrow}</p>
+      <h2 id="oss-title" class="h-section">{c.oss.title}</h2>
+    </header>
+    <ul class="oss reveal">
+      {openSource.map((o) => (
+        <li>
+          <a href={o.href} target="_blank" rel="noopener" class="oss__row">
+            <span class="oss__name">{o.name}</span>
+            <span class="oss__desc">{o.body[locale]}</span>
+            <span class="oss__lang">{o.lang}</span>
+            <Icon name="arrow-up-right" size={18} />
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<!-- About -->
+<section class="section" id="about" aria-labelledby="about-title">
+  <div class="container about">
+    <div class="about__copy reveal">
+      <p class="eyebrow">{c.about.eyebrow}</p>
+      <h2 id="about-title" class="h-section">{c.about.title}</h2>
+      {c.about.body.map((p) => <p class="about__p">{p}</p>)}
+      <p class="about__stack-title">{c.about.stackTitle}</p>
+      <ul class="chip-list">
+        {c.about.stack.map((s) => <li class="chip">{s}</li>)}
+      </ul>
+    </div>
+    <figure class="about__media reveal">
+      <picture>
+        <source type="image/avif" srcset="/images/montreal-960w.avif 960w, /images/montreal-1600w.avif 1600w" sizes="(max-width: 900px) 92vw, 560px" />
+        <img
+          src="/images/montreal-960w.webp"
+          srcset="/images/montreal-960w.webp 960w, /images/montreal-1600w.webp 1600w"
+          sizes="(max-width: 900px) 92vw, 560px"
+          alt={locale === 'fr' ? 'Illustration du centre-ville de Montréal à l’heure bleue, vu du mont Royal' : 'Illustration of downtown Montréal at blue hour, seen from Mount Royal'}
+          width="960"
+          height="480"
+          loading="lazy"
+          decoding="async"
+        />
+      </picture>
+    </figure>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section section--tint" id="faq" aria-labelledby="faq-title">
+  <div class="container faq-wrap">
+    <header class="section-head reveal">
+      <p class="eyebrow">{c.faq.eyebrow}</p>
+      <h2 id="faq-title" class="h-section">{c.faq.title}</h2>
+    </header>
+    <div class="reveal">
+      <Faq items={c.faq.items} />
+    </div>
+  </div>
+</section>
+
+<!-- Writing -->
+<section class="section" aria-labelledby="writing-title">
+  <div class="container">
+    <header class="writing-head reveal">
+      <div>
+        <p class="eyebrow">{c.writing.eyebrow}</p>
+        <h2 id="writing-title" class="h-section">{c.writing.title}</h2>
+      </div>
+      <a class="link-arrow" href="/blog/">{c.writing.all} <Icon name="arrow" size={18} /></a>
+    </header>
+    <ul class="posts reveal">
+      {posts.map((post) => (
+        <li>
+          <a href={`/blog/${post.slug}/`} class="posts__row" hreflang="en">
+            <time datetime={post.data.publishDate.toISOString()}>{dateFmt.format(post.data.publishDate)}</time>
+            <span class="posts__title">{post.data.title}</span>
+            <Icon name="arrow" size={18} />
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="contact" id="contact" aria-labelledby="contact-title">
+  <picture class="contact__bg" aria-hidden="true">
+    <source type="image/avif" srcset="/images/montreal-960w.avif 960w, /images/montreal-1600w.avif 1600w" sizes="100vw" />
+    <img src="/images/montreal-1600w.webp" srcset="/images/montreal-960w.webp 960w, /images/montreal-1600w.webp 1600w" sizes="100vw" alt="" loading="lazy" decoding="async" width="1600" height="800" />
+  </picture>
+  <div class="container contact__inner reveal">
+    <p class="eyebrow contact__eyebrow">{c.contact.eyebrow}</p>
+    <h2 id="contact-title" class="contact__title">{c.contact.title}</h2>
+    <p class="contact__lead">{c.contact.lead}</p>
+    <div class="contact__actions">
+      <a class="btn contact__btn" href={mailto(locale)}>
+        {c.contact.primary}
+        <Icon name="arrow" size={18} />
+      </a>
+      <p class="contact__email">
+        {c.contact.email} <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Hero */
+  .hero {
+    padding-block: clamp(var(--space-12), 7vw, var(--space-24)) var(--space-12);
+  }
+
+  .hero__grid {
+    display: grid;
+    gap: clamp(var(--space-10), 5vw, var(--space-16));
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .hero__grid {
+      grid-template-columns: 1.45fr 1fr;
+    }
+  }
+
+  .hero__status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: 0.35rem 0.85rem 0.35rem 0.7rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-full);
+    background: var(--surface);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--ink-2);
+    margin-bottom: var(--space-6);
+  }
+
+  .hero__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--ok);
+    box-shadow: 0 0 0 4px var(--ok-soft);
+  }
+
+  .hero__em {
+    color: var(--accent);
+    font-size: 1.08em;
+    padding-right: 0.05em;
+  }
+
+  .hero__lead {
+    margin-top: var(--space-6);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-8);
+  }
+
+  .hero__portrait {
+    position: relative;
+    margin: 0;
+    justify-self: center;
+    width: min(100%, 420px);
+  }
+
+  .hero__portrait img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 50% 20%;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    background: var(--surface-2);
+  }
+
+  .hero__portrait figcaption {
+    position: absolute;
+    left: var(--space-4);
+    bottom: var(--space-4);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--radius-full);
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+
+  @media (max-width: 899px) {
+    .hero__portrait {
+      order: -1;
+      width: min(100%, 300px);
+      justify-self: start;
+    }
+
+    .hero__portrait img {
+      aspect-ratio: 1;
+    }
+  }
+
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin: clamp(var(--space-12), 6vw, var(--space-20)) 0 0;
+    border-top: 1px solid var(--line);
+  }
+
+  @media (min-width: 800px) {
+    .facts {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .facts__item {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: var(--space-1);
+    padding: var(--space-6) var(--space-4) 0 0;
+  }
+
+  .facts dd {
+    margin: 0;
+    font-size: var(--step-3);
+    font-weight: 650;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .facts dt {
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+
+  /* Services bento */
+  .services {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 900px) {
+    .services {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .service {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: clamp(var(--space-6), 3vw, var(--space-8));
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    transition: border-color var(--base) var(--ease), box-shadow var(--base) var(--ease), transform var(--base) var(--ease);
+  }
+
+  .service:hover {
+    border-color: var(--line-strong);
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+  }
+
+  .service__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-4);
+  }
+
+  .service__num {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .service__icon {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius);
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  .service__name {
+    font-size: var(--step-2);
+  }
+
+  .service__tagline {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: var(--step-1);
+    color: var(--ink-2);
+    line-height: 1.3;
+  }
+
+  .service__summary {
+    color: var(--ink-2);
+  }
+
+  .service__bullets {
+    list-style: none;
+    display: grid;
+    gap: var(--space-2);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--line);
+    font-size: 0.95rem;
+    color: var(--ink-2);
+  }
+
+  .service__bullets li {
+    position: relative;
+    padding-left: 1.1rem;
+  }
+
+  .service__bullets li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.65em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .service__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: auto;
+    padding-top: var(--space-4);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .service__link :global(svg) {
+    transition: transform var(--fast) var(--ease);
+  }
+
+  .service:hover .service__link :global(svg) {
+    transform: translateX(4px);
+  }
+
+  .service--accent {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  .service--accent:hover {
+    border-color: var(--accent);
+  }
+
+  .service--accent .service__num,
+  .service--accent .service__tagline,
+  .service--accent .service__summary,
+  .service--accent .service__bullets,
+  .service--accent .service__link {
+    color: var(--accent-ink);
+  }
+
+  .service--accent .service__summary,
+  .service--accent .service__bullets,
+  .service--accent .service__tagline {
+    opacity: 0.92;
+  }
+
+  .service--accent .service__icon {
+    background: color-mix(in srgb, var(--accent-ink) 16%, transparent);
+    color: var(--accent-ink);
+  }
+
+  .service--accent .service__bullets {
+    border-color: color-mix(in srgb, var(--accent-ink) 25%, transparent);
+  }
+
+  .service--accent .service__bullets li::before {
+    background: var(--accent-ink);
+  }
+
+  .principles {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+    padding: var(--space-6) clamp(var(--space-6), 3vw, var(--space-8));
+    border: 1px dashed var(--line-strong);
+    border-radius: var(--radius-lg);
+  }
+
+  @media (min-width: 900px) {
+    .principles {
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: var(--space-8);
+    }
+  }
+
+  .principles__title {
+    font-weight: 650;
+  }
+
+  .principles ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-8);
+    color: var(--ink-2);
+  }
+
+  .principles li {
+    position: relative;
+    padding-left: 1.5rem;
+  }
+
+  .principles li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--ok);
+    font-weight: 700;
+  }
+
+  /* Process */
+  .process {
+    list-style: none;
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  @media (min-width: 800px) {
+    .process {
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-6);
+    }
+  }
+
+  .process__step {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+    padding-top: var(--space-5);
+    border-top: 2px solid var(--ink);
+  }
+
+  .process__num {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--accent);
+  }
+
+  .process__step h3 {
+    font-size: var(--step-2);
+  }
+
+  .process__step p {
+    color: var(--ink-2);
+  }
+
+  /* Work */
+  .work {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 700px) {
+    .work {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .work {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .product {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: clamp(var(--space-6), 3vw, var(--space-8));
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+  }
+
+  .product h3 {
+    font-size: var(--step-2);
+  }
+
+  .product p {
+    color: var(--ink-2);
+  }
+
+  .product .link-arrow {
+    margin-top: auto;
+  }
+
+  .product--featured {
+    display: grid;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  @media (min-width: 700px) {
+    .product--featured {
+      grid-column: 1 / -1;
+      grid-template-columns: 1fr 1.15fr;
+    }
+  }
+
+  .product--featured {
+    background:
+      radial-gradient(90% 70% at 80% 60%, color-mix(in srgb, var(--ok) 10%, transparent), transparent 70%),
+      var(--surface);
+  }
+
+  @media (min-width: 1000px) {
+    .product--featured {
+      grid-column: span 2;
+      grid-row: span 2;
+      grid-template-columns: 1fr;
+      align-content: space-between;
+    }
+
+    .product--featured .product__phones {
+      width: min(100%, 600px);
+    }
+  }
+
+  .product__body {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .product__brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .product__brand img {
+    border-radius: var(--radius);
+  }
+
+  .product__phones {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    align-items: start;
+    justify-self: center;
+    width: min(100%, 500px);
+  }
+
+  .product__phones img {
+    border-radius: 22px;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-lg);
+    background: var(--surface-2);
+  }
+
+  .product__phones img:nth-child(2) {
+    margin-top: var(--space-10);
+  }
+
+  /* Media slot on regular product cards: top of a phone screen, or a wide render */
+  .product__media {
+    margin: calc(clamp(var(--space-6), 3vw, var(--space-8)) * -1);
+    margin-bottom: var(--space-2);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    background: var(--surface-2);
+    overflow: hidden;
+    aspect-ratio: 16 / 10;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .product__media img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .product__media--phone {
+    display: flex;
+    justify-content: center;
+    padding: var(--space-6) var(--space-6) 0;
+    background:
+      radial-gradient(120% 90% at 50% 100%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%),
+      var(--surface-2);
+  }
+
+  .product__media--phone img {
+    width: 62%;
+    height: auto;
+    align-self: flex-start;
+    border-radius: 18px 18px 0 0;
+    border: 1px solid var(--line);
+    border-bottom: 0;
+    box-shadow: var(--shadow);
+    transition: transform var(--base) var(--ease);
+  }
+
+  .product:hover .product__media--phone img {
+    transform: translateY(-6px);
+  }
+
+  .product__media--wide {
+    background: #f4f3ef;
+  }
+
+  .product__media--wide img {
+    object-fit: cover;
+  }
+
+  /* Model cases */
+  .cases {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 900px) {
+    .cases {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .case {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .case h3 {
+    font-size: var(--step-1);
+  }
+
+  .case p {
+    color: var(--ink-2);
+  }
+
+  .case .link-arrow {
+    margin-top: auto;
+    font-size: 0.95rem;
+  }
+
+  .cases__more {
+    margin-top: var(--space-8);
+  }
+
+  /* Open source */
+  .oss {
+    list-style: none;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .oss__row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-1) var(--space-6);
+    align-items: center;
+    padding: var(--space-5) var(--space-2);
+    border-bottom: 1px solid var(--line-strong);
+    color: var(--ink);
+    text-decoration: none;
+    transition: background var(--fast) var(--ease), padding var(--base) var(--ease);
+  }
+
+  .oss__row:hover {
+    color: var(--ink);
+    background: var(--surface);
+    padding-inline: var(--space-4);
+  }
+
+  .oss__name {
+    font-weight: 650;
+    font-size: var(--step-1);
+  }
+
+  .oss__desc {
+    grid-column: 1;
+    color: var(--ink-2);
+  }
+
+  .oss__lang {
+    display: none;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .oss__row :global(svg) {
+    grid-row: 1 / span 2;
+    grid-column: 2;
+    color: var(--muted);
+  }
+
+  @media (min-width: 800px) {
+    .oss__row {
+      grid-template-columns: 220px 1fr 140px 20px;
+    }
+
+    .oss__desc {
+      grid-column: auto;
+    }
+
+    .oss__lang {
+      display: block;
+    }
+
+    .oss__row :global(svg) {
+      grid-row: auto;
+      grid-column: auto;
+    }
+  }
+
+  /* About */
+  .about {
+    display: grid;
+    gap: var(--space-12);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .about {
+      grid-template-columns: 1.1fr 1fr;
+    }
+  }
+
+  .about__copy {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .about__p {
+    font-size: var(--step-1);
+    color: var(--ink-2);
+    max-width: 58ch;
+  }
+
+  .about__stack-title {
+    margin-top: var(--space-4);
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: var(--muted);
+  }
+
+  .about__media {
+    margin: 0;
+  }
+
+  .about__media img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius-xl);
+  }
+
+  /* FAQ */
+  .faq-wrap {
+    max-width: 920px;
+  }
+
+  /* Writing */
+  .writing-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: end;
+    gap: var(--space-4);
+    margin-bottom: var(--space-10);
+  }
+
+  .writing-head > div {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .posts {
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+
+  .posts__row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-1) var(--space-6);
+    padding: var(--space-5) 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .posts__row:hover {
+    color: var(--accent);
+  }
+
+  .posts__row time {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .posts__title {
+    grid-column: 1;
+    font-size: var(--step-1);
+    font-weight: 600;
+  }
+
+  .posts__row :global(svg) {
+    grid-row: 1 / span 2;
+    grid-column: 2;
+    align-self: center;
+  }
+
+  @media (min-width: 800px) {
+    .posts__row {
+      grid-template-columns: 200px 1fr auto;
+      align-items: center;
+    }
+
+    .posts__title {
+      grid-column: auto;
+    }
+
+    .posts__row :global(svg) {
+      grid-row: auto;
+      grid-column: auto;
+    }
+  }
+
+  /* Contact */
+  .contact {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    color: #fff;
+    background: #0e0f12;
+  }
+
+  .contact__bg img {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 70%;
+  }
+
+  .contact::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, rgb(14 15 18 / 0.86) 0%, rgb(14 15 18 / 0.6) 55%, rgb(14 15 18 / 0.35) 100%);
+  }
+
+  .contact__inner {
+    display: grid;
+    gap: var(--space-6);
+    padding-block: clamp(var(--space-20), 12vw, 10rem);
+  }
+
+  .contact__eyebrow {
+    color: #c9d0ff;
+  }
+
+  .contact__title {
+    font-size: var(--step-5);
+    letter-spacing: -0.04em;
+    line-height: 1.02;
+    max-width: 16ch;
+  }
+
+  .contact__lead {
+    font-size: var(--step-1);
+    max-width: 56ch;
+    color: #e9e7df;
+  }
+
+  .contact__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4) var(--space-8);
+    margin-top: var(--space-4);
+  }
+
+  .contact__btn {
+    background: #fff;
+    color: #15140f;
+  }
+
+  .contact__btn:hover {
+    background: #c9d0ff;
+    color: #15140f;
+  }
+
+  .contact__email {
+    color: #e9e7df;
+  }
+
+  .contact__email a {
+    color: #fff;
+    font-weight: 600;
+  }
+</style>

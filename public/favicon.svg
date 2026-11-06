@@ -1,10 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="XJ monogram">
-  <defs>
-    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1D4ED8"/>
-      <stop offset="100%" stop-color="#10B981"/>
-    </linearGradient>
-  </defs>
-  <rect width="64" height="64" rx="12" fill="#0B1F3B"/>
-  <path d="M18 16h8l6 10 6-10h8l-10 16 10 16h-8l-6-10-6 10h-8l10-16-10-16z" fill="url(#g)"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Xavier Jodoin">
+  <defs><clipPath id="x"><rect y="19" width="64" height="27"/></clipPath></defs>
+  <rect width="64" height="64" rx="15" fill="#15140f"/>
+  <path clip-path="url(#x)" d="M10.5 14.5 35.5 50.5M35.5 14.5 10.5 50.5" stroke="#f7f5f0" stroke-width="6.5" fill="none"/>
+  <path d="M47 27v11.5a7.5 7.5 0 0 1-7.5 7.5" stroke="#f7f5f0" stroke-width="6.5" fill="none"/>
+  <circle cx="47" cy="18.5" r="4.6" fill="#4d66ff"/>
 </svg>

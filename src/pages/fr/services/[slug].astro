@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ServicePage from '../../../components/ServicePage.astro';
+import { absolute, homePath } from '../../../i18n/config';
+import { services, servicePath, type Service } from '../../../i18n/content';
+import { faqPage, webPage } from '../../../i18n/schema';
+
+const locale = 'fr';
+
+export function getStaticPaths() {
+  return services.map((service) => ({ params: { slug: service.slug.fr }, props: { service } }));
+}
+
+const { service } = Astro.props as { service: Service };
+const s = service;
+const path = servicePath(s, locale);
+const seo = s.seo[locale];
+const url = absolute(path);
+const schema = [
+  ...webPage({
+    path,
+    title: seo.title,
+    description: seo.description,
+    locale,
+    crumbs: [
+      { name: locale === 'fr' ? 'Accueil' : 'Home', path: homePath[locale] },
+      { name: 'Services', path: `${homePath[locale]}#services` },
+      { name: s.name[locale], path }
+    ]
+  }),
+  {
+    '@type': 'Service',
+    '@id': `${url}#service`,
+    name: s.name[locale],
+    serviceType: s.name[locale],
+    description: seo.description,
+    url,
+    provider: { '@id': 'https://xavierjodoin.com/#business' },
+    areaServed: [
+      { '@type': 'City', name: 'Montréal' },
+      { '@type': 'City', name: 'Laval' },
+      { '@type': 'City', name: 'Longueuil' },
+      { '@type': 'City', name: 'Québec City' },
+      { '@type': 'AdministrativeArea', name: 'Québec' }
+    ],
+    availableLanguage: ['English', 'French']
+  },
+  faqPage(s.faq[locale], url)
+];
+---
+<BaseLayout
+  title={seo.title}
+  description={seo.description}
+  locale={locale}
+  path={path}
+  alternates={{ en: servicePath(s, 'en'), fr: servicePath(s, 'fr') }}
+  schema={schema}
+>
+  <ServicePage service={s} locale={locale} />
+</BaseLayout>

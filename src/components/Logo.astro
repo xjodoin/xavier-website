@@ -1,0 +1,40 @@
+---
+// Brand mark: X + J with a cobalt "node" as the dot of the j.
+// Colours follow the theme tokens, so it inverts cleanly in dark mode.
+interface Props {
+  size?: number;
+}
+const { size = 34 } = Astro.props;
+const id = `x${Math.random().toString(36).slice(2, 8)}`;
+---
+<svg class="logo" width={size} height={size} viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+  <defs><clipPath id={id}><rect y="19" width="64" height="27" /></clipPath></defs>
+  <rect width="64" height="64" rx="15" class="logo__bg" />
+  <path clip-path={`url(#${id})`} d="M10.5 14.5 35.5 50.5M35.5 14.5 10.5 50.5" class="logo__ink" stroke-width="6.5" fill="none" />
+  <path d="M47 27v11.5a7.5 7.5 0 0 1-7.5 7.5" class="logo__ink" stroke-width="6.5" fill="none" />
+  <circle cx="47" cy="18.5" r="4.6" class="logo__dot" />
+</svg>
+
+<style>
+  .logo {
+    display: block;
+    flex-shrink: 0;
+  }
+  .logo__bg {
+    fill: var(--ink);
+  }
+  .logo__ink {
+    stroke: var(--bg);
+  }
+  .logo__dot {
+    fill: #4d66ff;
+  }
+  :global([data-theme='dark']) .logo__dot {
+    fill: #2b45e0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme='light'])) .logo__dot {
+      fill: #2b45e0;
+    }
+  }
+</style>

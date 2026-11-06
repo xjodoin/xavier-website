@@ -1,0 +1,236 @@
+---
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import { homePath, mailto, type Alternates, type Locale } from '../i18n/config';
+import { ui } from '../i18n/content';
+
+interface Props {
+  locale: Locale;
+  alternates: Alternates;
+}
+const { locale, alternates } = Astro.props;
+const t = ui[locale];
+const other: Locale = locale === 'en' ? 'fr' : 'en';
+const otherHref = alternates[other] ?? homePath[other];
+---
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href={homePath[locale]} class="brand" aria-label="Xavier Jodoin">
+      <Logo size={34} />
+      <span class="brand__name">Xavier Jodoin</span>
+    </a>
+
+    <nav id="site-nav" class="site-nav" aria-label={locale === 'fr' ? 'Navigation principale' : 'Primary'} data-open="false">
+      <ul class="site-nav__list">
+        {t.nav.map((item) => (
+          <li><a href={item.href} class="site-nav__link">{item.label}</a></li>
+        ))}
+      </ul>
+      <a class="btn btn-primary site-nav__cta-mobile" href={mailto(locale)}>{t.navCta}</a>
+    </nav>
+
+    <div class="site-header__tools">
+      <a
+        class="tool-btn tool-btn--lang"
+        href={otherHref}
+        hreflang={other === 'fr' ? 'fr-CA' : 'en-CA'}
+        lang={other}
+        title={t.switchLangLabel}
+        aria-label={t.switchLangLabel}
+      >
+        {other.toUpperCase()}
+      </a>
+      <button class="tool-btn" type="button" data-theme-toggle aria-pressed="false" title={t.theme}>
+        <span class="sr-only">{t.theme}</span>
+        <span class="icon-moon"><Icon name="moon" size={18} /></span>
+        <span class="icon-sun"><Icon name="sun" size={18} /></span>
+      </button>
+      <a class="btn btn-primary site-header__cta" href={mailto(locale)}>{t.navCta}</a>
+      <button class="tool-btn site-header__menu" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+        <span class="sr-only">{t.menu}</span>
+        <Icon name="menu" size={20} />
+      </button>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter: saturate(1.4) blur(14px);
+    -webkit-backdrop-filter: saturate(1.4) blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    min-height: 68px;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    margin-right: auto;
+  }
+
+  .brand:hover {
+    color: var(--ink);
+  }
+
+  .site-nav__list {
+    list-style: none;
+    display: flex;
+    gap: var(--space-1);
+  }
+
+  .site-nav__link {
+    display: inline-block;
+    padding: 0.45rem 0.8rem;
+    border-radius: var(--radius-full);
+    color: var(--ink-2);
+    text-decoration: none;
+    font-size: 0.94rem;
+    font-weight: 500;
+    transition: background var(--fast) var(--ease), color var(--fast) var(--ease);
+  }
+
+  .site-nav__link:hover {
+    color: var(--ink);
+    background: var(--surface-2);
+  }
+
+  .site-nav__cta-mobile {
+    display: none;
+  }
+
+  .site-header__tools {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .tool-btn {
+    display: inline-grid;
+    place-items: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 0.5rem;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 650;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color var(--fast) var(--ease), background var(--fast) var(--ease);
+  }
+
+  .tool-btn:hover {
+    color: var(--ink);
+    border-color: var(--line-strong);
+    background: var(--surface-2);
+  }
+
+  .icon-sun {
+    display: none;
+  }
+
+  :global([data-theme-toggle][aria-pressed='true']) .icon-sun {
+    display: block;
+  }
+
+  :global([data-theme-toggle][aria-pressed='true']) .icon-moon {
+    display: none;
+  }
+
+  .site-header__cta {
+    min-height: 40px;
+    padding-inline: var(--space-5);
+    font-size: 0.92rem;
+  }
+
+  .site-header__menu {
+    display: none;
+  }
+
+  @media (max-width: 960px) {
+    .site-header__cta {
+      display: none;
+    }
+
+    .site-header__menu {
+      display: inline-grid;
+    }
+
+    .site-nav {
+      position: fixed;
+      inset: 68px 0 auto 0;
+      padding: var(--space-4) var(--gutter) var(--space-6);
+      background: var(--bg);
+      border-bottom: 1px solid var(--line);
+      box-shadow: var(--shadow-lg);
+      display: grid;
+      gap: var(--space-4);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      transition:
+        opacity var(--base) var(--ease),
+        transform var(--base) var(--ease),
+        visibility var(--base);
+    }
+
+    .site-nav[data-open='true'] {
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+    }
+
+    .site-nav__list {
+      flex-direction: column;
+    }
+
+    .site-nav__link {
+      display: block;
+      padding: 0.85rem 0.5rem;
+      font-size: 1.05rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .site-nav__cta-mobile {
+      display: inline-flex;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
+  const nav = document.querySelector<HTMLElement>('#site-nav');
+  if (toggle && nav) {
+    const set = (open: boolean) => {
+      nav.dataset.open = String(open);
+      toggle.setAttribute('aria-expanded', String(open));
+    };
+    toggle.addEventListener('click', () => set(nav.dataset.open !== 'true'));
+    nav.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => set(false)));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && nav.dataset.open === 'true') {
+        set(false);
+        toggle.focus();
+      }
+    });
+  }
+</script>

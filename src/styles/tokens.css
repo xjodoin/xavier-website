@@ -1,81 +1,45 @@
+/*
+ * Design tokens — calm editorial system (2026 refresh).
+ * Light is the default; dark applies from the OS preference unless the
+ * visitor picked a theme (data-theme on <html>, set before first paint).
+ */
 :root {
-  /* Typography - SF Pro inspired with distinctive display font */
-  --font-body: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-  --font-display: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-mono: 'SF Mono', ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, monospace;
+  color-scheme: light;
 
-  /* Apple-inspired color palette - sophisticated & premium */
-  --color-primary: #0071e3;
-  --color-onPrimary: #ffffff;
-  --color-secondary: #86868b;
-  --color-onSecondary: #1d1d1f;
-  --color-accent: #2997ff;
-  --color-onAccent: #ffffff;
+  /* Color */
+  --bg: #f7f5f0;
+  --surface: #ffffff;
+  --surface-2: #efece4;
+  --ink: #15140f;
+  --ink-2: #3f3d36;
+  --muted: #66635a;
+  --line: #e0dccf;
+  --line-strong: #cdc8b8;
+  --accent: #2b45e0;
+  --accent-hover: #1f36c2;
+  --accent-ink: #ffffff;
+  --accent-soft: #e5e8fb;
+  --ok: #1d7f46;
+  --ok-soft: #e1f2e7;
+  --warm: #b4541a;
+  --warm-soft: #f8e9dc;
+  --shadow: 0 1px 2px rgb(21 20 15 / 0.04), 0 8px 24px -12px rgb(21 20 15 / 0.12);
+  --shadow-lg: 0 2px 4px rgb(21 20 15 / 0.04), 0 24px 48px -24px rgb(21 20 15 / 0.22);
 
-  /* Backgrounds - layered depth */
-  --color-bg: #fbfbfd;
-  --color-surface: rgba(255, 255, 255, 0.72);
-  --color-surface-elevated: rgba(255, 255, 255, 0.85);
-  --color-text: #1d1d1f;
-  --color-text-secondary: #424245;
-  --color-muted: #86868b;
+  /* Type */
+  --font-sans: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
-  /* Borders & Dividers */
-  --color-border: rgba(0, 0, 0, 0.08);
-  --color-border-light: rgba(255, 255, 255, 0.5);
-  --color-divider: rgba(0, 0, 0, 0.04);
+  --step--1: clamp(0.83rem, 0.8rem + 0.1vw, 0.875rem);
+  --step-0: clamp(1rem, 0.96rem + 0.18vw, 1.0625rem);
+  --step-1: clamp(1.15rem, 1.08rem + 0.3vw, 1.3rem);
+  --step-2: clamp(1.4rem, 1.25rem + 0.6vw, 1.75rem);
+  --step-3: clamp(1.75rem, 1.45rem + 1.3vw, 2.6rem);
+  --step-4: clamp(2.2rem, 1.6rem + 2.6vw, 3.8rem);
+  --step-5: clamp(2.6rem, 1.7rem + 4.2vw, 5.4rem);
 
-  /* Semantic colors */
-  --color-info: #0071e3;
-  --color-success: #34c759;
-  --color-warning: #ff9f0a;
-  --color-danger: #ff3b30;
-  --color-link: #0066cc;
-  --color-linkHover: #0071e3;
-  --color-linkVisited: #5856d6;
-
-  /* Premium glassmorphism system */
-  --glass-bg: rgba(255, 255, 255, 0.72);
-  --glass-bg-subtle: rgba(255, 255, 255, 0.5);
-  --glass-bg-elevated: rgba(255, 255, 255, 0.85);
-  --glass-border: rgba(255, 255, 255, 0.7);
-  --glass-border-subtle: rgba(0, 0, 0, 0.06);
-  --glass-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.03),
-    0 2px 4px rgba(0, 0, 0, 0.04),
-    0 12px 24px rgba(0, 0, 0, 0.06);
-  --glass-shadow-elevated:
-    0 0 0 1px rgba(0, 0, 0, 0.04),
-    0 4px 8px rgba(0, 0, 0, 0.06),
-    0 24px 48px rgba(0, 0, 0, 0.12);
-  --glass-highlight: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0) 50%);
-  --glass-blur: 20px;
-  --glass-blur-strong: 40px;
-  --glass-saturation: 180%;
-
-  /* Ambient gradient colors - soft & ethereal */
-  --gradient-blue: rgba(0, 113, 227, 0.15);
-  --gradient-purple: rgba(88, 86, 214, 0.12);
-  --gradient-pink: rgba(255, 45, 85, 0.08);
-  --gradient-teal: rgba(50, 215, 195, 0.1);
-  --gradient-orange: rgba(255, 159, 10, 0.08);
-
-  /* Type scale - refined for readability */
-  --type-xs: 0.75rem;
-  --type-sm: 0.875rem;
-  --type-base: 1rem;
-  --type-md: 1.125rem;
-  --type-lg: 1.25rem;
-  --type-xl: 1.5rem;
-  --type-2xl: 2rem;
-  --type-3xl: 2.5rem;
-  --type-4xl: 3rem;
-  --type-5xl: 3.5rem;
-  --type-6xl: 4rem;
-  --type-hero: clamp(3rem, 8vw, 5.5rem);
-
-  /* Spacing - 4px base rhythm */
-  --space-0: 0;
+  /* Space */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -88,43 +52,65 @@
   --space-16: 4rem;
   --space-20: 5rem;
   --space-24: 6rem;
-  --space-32: 8rem;
+  --section: clamp(4rem, 3rem + 5vw, 8rem);
+  --gutter: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
+  --max: 1200px;
 
-  /* Border radius - Apple-style generous curves */
+  /* Shape */
   --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
-  --radius-2xl: 24px;
-  --radius-3xl: 32px;
-  --radius-full: 9999px;
+  --radius: 14px;
+  --radius-lg: 22px;
+  --radius-xl: 30px;
+  --radius-full: 999px;
 
-  /* Shadows - layered depth system */
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.1);
-  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.12);
-  --shadow-2xl: 0 24px 64px rgba(0, 0, 0, 0.16);
-  --shadow-glow: 0 0 40px rgba(0, 113, 227, 0.15);
-  --shadow-glow-accent: 0 0 60px rgba(41, 151, 255, 0.2);
+  /* Motion */
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --fast: 150ms;
+  --base: 260ms;
+}
 
-  /* Transitions - smooth & natural */
-  --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
-  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --bg: #0e0f12;
+    --surface: #16181d;
+    --surface-2: #1c1f26;
+    --ink: #f2f0e9;
+    --ink-2: #cfccc2;
+    --muted: #a19e94;
+    --line: #2a2d35;
+    --line-strong: #3a3e48;
+    --accent: #8e9fff;
+    --accent-hover: #aab7ff;
+    --accent-ink: #0e0f12;
+    --accent-soft: #1e2442;
+    --ok: #5fd08e;
+    --ok-soft: #15291e;
+    --warm: #f0a46d;
+    --warm-soft: #2c1e14;
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px -12px rgb(0 0 0 / 0.5);
+    --shadow-lg: 0 2px 4px rgb(0 0 0 / 0.3), 0 24px 48px -24px rgb(0 0 0 / 0.6);
+  }
+}
 
-  --duration-fast: 150ms;
-  --duration-base: 250ms;
-  --duration-slow: 400ms;
-  --duration-slower: 600ms;
-
-  /* Z-index scale */
-  --z-base: 0;
-  --z-dropdown: 100;
-  --z-sticky: 200;
-  --z-overlay: 300;
-  --z-modal: 400;
-  --z-toast: 500;
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0e0f12;
+  --surface: #16181d;
+  --surface-2: #1c1f26;
+  --ink: #f2f0e9;
+  --ink-2: #cfccc2;
+  --muted: #a19e94;
+  --line: #2a2d35;
+  --line-strong: #3a3e48;
+  --accent: #8e9fff;
+  --accent-hover: #aab7ff;
+  --accent-ink: #0e0f12;
+  --accent-soft: #1e2442;
+  --ok: #5fd08e;
+  --ok-soft: #15291e;
+  --warm: #f0a46d;
+  --warm-soft: #2c1e14;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px -12px rgb(0 0 0 / 0.5);
+  --shadow-lg: 0 2px 4px rgb(0 0 0 / 0.3), 0 24px 48px -24px rgb(0 0 0 / 0.6);
 }

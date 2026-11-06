@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { services, servicePath } from '../i18n/content';
+---
+<BaseLayout title="Page not found · Page introuvable | Xavier Jodoin" description="This page does not exist." locale="en" path="/404/" noindex>
+  <section class="section">
+    <div class="container nf">
+      <p class="eyebrow">404</p>
+      <h1 class="h-section">This page took a wrong turn.</h1>
+      <p class="lead" lang="fr">Cette page n’existe pas ou a été déplacée.</p>
+      <div class="nf__actions">
+        <a class="btn btn-primary" href="/">Home <Icon name="arrow" size={18} /></a>
+        <a class="btn btn-ghost" href="/fr/" lang="fr">Accueil en français</a>
+      </div>
+      <ul class="nf__links">
+        {services.map((s) => (
+          <li><a href={servicePath(s, 'en')}>{s.name.en}</a> · <a href={servicePath(s, 'fr')} lang="fr">{s.name.fr}</a></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf {
+    display: grid;
+    gap: var(--space-6);
+    max-width: 760px;
+    min-height: 50vh;
+    align-content: center;
+  }
+
+  .nf__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .nf__links {
+    list-style: none;
+    display: grid;
+    gap: var(--space-2);
+    color: var(--muted);
+  }
+</style>

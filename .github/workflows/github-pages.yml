@@ -35,6 +35,9 @@ jobs:
         env:
           PUBLIC_SITE: https://xavierjodoin.com
           PUBLIC_BASE: /
+          # GA4 measurement ID (G-XXXXXXXXXX) for the "xavierjodoin-site" property.
+          # Set it under Settings → Secrets and variables → Actions → Variables.
+          PUBLIC_GOOGLE_ANALYTICS_ID: ${{ vars.PUBLIC_GOOGLE_ANALYTICS_ID }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
