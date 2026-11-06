@@ -18,3 +18,5 @@ export const mailto = (locale: Locale) => {
 
 /** Alternate URLs for a page, keyed by locale. Used for hreflang + the language switch. */
 export type Alternates = Partial<Record<Locale, string>>;
+
+export const privacyPath: Record<Locale, string> = { en: '/privacy/', fr: '/fr/confidentialite/' };

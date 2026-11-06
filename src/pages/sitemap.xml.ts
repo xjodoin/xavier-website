@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
-import { absolute, htmlLang, type Locale } from '../i18n/config';
+import { absolute, htmlLang, privacyPath, type Locale } from '../i18n/config';
 import { services, servicePath } from '../i18n/content';
 
 type Entry = { loc: string; alternates?: Partial<Record<Locale, string>>; lastmod?: Date; priority: number };
@@ -9,13 +9,14 @@ export const GET: APIRoute = async () => {
   const build = new Date();
   const pairs: Partial<Record<Locale, string>>[] = [
     { en: '/', fr: '/fr/' },
-    ...services.map((s) => ({ en: servicePath(s, 'en'), fr: servicePath(s, 'fr') }))
+    ...services.map((s) => ({ en: servicePath(s, 'en'), fr: servicePath(s, 'fr') })),
+    { en: privacyPath.en, fr: privacyPath.fr }
   ];
 
   const entries: Entry[] = [];
   for (const alt of pairs) {
     for (const path of Object.values(alt)) {
-      entries.push({ loc: path!, alternates: alt, lastmod: build, priority: path === '/' || path === '/fr/' ? 1 : 0.9 });
+      entries.push({ loc: path!, alternates: alt, lastmod: build, priority: path === '/' || path === '/fr/' ? 1 : Object.values(privacyPath).includes(path!) ? 0.2 : 0.9 });
     }
   }
 

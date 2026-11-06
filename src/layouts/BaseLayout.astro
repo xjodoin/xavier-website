@@ -5,6 +5,7 @@ import '../styles/tokens.css';
 import '../styles/globals.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import ConsentBanner from '../components/ConsentBanner.astro';
 import { SITE_URL, absolute, htmlLang, ogLocale, type Alternates, type Locale, CONTACT_EMAIL } from '../i18n/config';
 import { services, servicePath, ui } from '../i18n/content';
 
@@ -129,8 +130,16 @@ const graph = [
 const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph });
 
 const themeScript = `(()=>{try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.dataset.theme=t}catch(e){}})();`;
+// Analytics only loads after explicit consent (Québec Law 25). Google Consent Mode v2
+// defaults are set to "denied" first; nothing is sent to Google until the visitor accepts.
 const analyticsSnippet = analyticsId
-  ? `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${analyticsId}',{anonymize_ip:true});`
+  ? `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',wait_for_update:500});
+window.__loadAnalytics=function(){if(window.__gaLoaded)return;window.__gaLoaded=true;
+gtag('consent','update',{analytics_storage:'granted'});
+var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=${analyticsId}';document.head.appendChild(s);
+gtag('js',new Date());gtag('config','${analyticsId}',{anonymize_ip:true});};
+try{if(localStorage.getItem('consent')==='granted')window.__loadAnalytics();}catch(e){}`
   : '';
 ---
 <!doctype html>
@@ -184,12 +193,7 @@ const analyticsSnippet = analyticsId
     <script is:inline set:html={themeScript}></script>
     <script type="application/ld+json" set:html={jsonLd}></script>
 
-    {analyticsId && (
-      <>
-        <script async src={`https://www.googletagmanager.com/gtag/js?id=${analyticsId}`}></script>
-        <script is:inline set:html={analyticsSnippet}></script>
-      </>
-    )}
+    {analyticsId && <script is:inline set:html={analyticsSnippet}></script>}
   </head>
   <body>
     <a class="skip-link" href="#main">{t.skip}</a>
@@ -197,7 +201,8 @@ const analyticsSnippet = analyticsId
     <main id="main">
       <slot />
     </main>
-    <Footer locale={locale} />
+    <Footer locale={locale} consent={!!analyticsId} />
+    {analyticsId && <ConsentBanner locale={locale} />}
   </body>
 </html>
 

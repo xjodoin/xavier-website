@@ -1,0 +1,146 @@
+---
+import { privacyPath, type Locale } from '../i18n/config';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = {
+  en: {
+    label: 'Cookie consent',
+    title: 'Can I measure your visit?',
+    body: 'With your permission, this site uses Google Analytics cookies to count visits and see which pages are useful. Nothing is collected unless you accept, and you can change your mind at any time from the footer.',
+    accept: 'Accept analytics',
+    refuse: 'Refuse',
+    more: 'Privacy policy'
+  },
+  fr: {
+    label: 'Consentement aux témoins',
+    title: 'Puis-je mesurer votre visite?',
+    body: "Avec votre permission, ce site utilise les témoins (cookies) de Google Analytics pour compter les visites et voir quelles pages sont utiles. Rien n'est recueilli sans votre accord, et vous pouvez changer d'avis en tout temps à partir du pied de page.",
+    accept: 'Accepter la mesure',
+    refuse: 'Refuser',
+    more: 'Politique de confidentialité'
+  }
+}[locale];
+---
+<section class="consent" role="region" aria-label={t.label} aria-labelledby="consent-title" data-consent hidden>
+  <div class="consent__text">
+    <h2 id="consent-title">{t.title}</h2>
+    <p>{t.body} <a href={privacyPath[locale]}>{t.more}</a></p>
+  </div>
+  <div class="consent__actions">
+    <button type="button" class="btn btn-primary consent__btn" data-consent-choice="denied">{t.refuse}</button>
+    <button type="button" class="btn btn-primary consent__btn" data-consent-choice="granted">{t.accept}</button>
+  </div>
+</section>
+
+<style>
+  .consent {
+    position: fixed;
+    z-index: 60;
+    left: var(--space-4);
+    right: var(--space-4);
+    bottom: var(--space-4);
+    max-width: 640px;
+    margin-inline: auto;
+    display: grid;
+    gap: var(--space-5);
+    padding: var(--space-6);
+    background: var(--surface);
+    color: var(--ink);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .consent[hidden] {
+    display: none;
+  }
+
+  .consent h2 {
+    font-size: var(--step-1);
+    margin-bottom: var(--space-2);
+  }
+
+  .consent p {
+    font-size: 0.92rem;
+    color: var(--ink-2);
+  }
+
+  .consent__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+  }
+
+  /* Refusing is as easy and as visible as accepting: both buttons share one style. */
+  .consent__btn {
+    min-height: 44px;
+    padding-inline: var(--space-4);
+    font-size: 0.95rem;
+  }
+
+  @media (min-width: 900px) {
+    .consent {
+      grid-template-columns: 1fr auto;
+      align-items: end;
+    }
+
+    .consent__actions {
+      grid-template-columns: auto auto;
+    }
+  }
+</style>
+
+<script>
+  const KEY = 'consent';
+  const banner = document.querySelector<HTMLElement>('[data-consent]');
+  const w = window as unknown as { __loadAnalytics?: () => void; gtag?: (...args: unknown[]) => void };
+
+  const read = () => {
+    try {
+      return localStorage.getItem(KEY);
+    } catch {
+      return null;
+    }
+  };
+
+  const clearGaCookies = () => {
+    const host = location.hostname.replace(/^www\./, '');
+    document.cookie.split(';').forEach((c) => {
+      const name = c.split('=')[0].trim();
+      if (name === '_ga' || name.startsWith('_ga_')) {
+        for (const domain of ['', `; domain=.${host}`, `; domain=${host}`]) {
+          document.cookie = `${name}=; Max-Age=0; path=/${domain}`;
+        }
+      }
+    });
+  };
+
+  const choose = (value: 'granted' | 'denied') => {
+    try {
+      localStorage.setItem(KEY, value);
+    } catch {}
+    if (value === 'granted') {
+      w.__loadAnalytics?.();
+    } else {
+      w.gtag?.('consent', 'update', { analytics_storage: 'denied' });
+      clearGaCookies();
+    }
+    if (banner) banner.hidden = true;
+  };
+
+  if (banner) {
+    if (!read()) banner.hidden = false;
+    banner.querySelectorAll<HTMLButtonElement>('[data-consent-choice]').forEach((b) =>
+      b.addEventListener('click', () => choose(b.dataset.consentChoice as 'granted' | 'denied'))
+    );
+    document.querySelectorAll<HTMLButtonElement>('[data-consent-open]').forEach((b) =>
+      b.addEventListener('click', () => {
+        banner.hidden = false;
+        banner.querySelector<HTMLButtonElement>('[data-consent-choice="denied"]')?.focus();
+      })
+    );
+  }
+</script>

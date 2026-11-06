@@ -1,0 +1,146 @@
+---
+import { CONTACT_EMAIL, type Locale } from '../i18n/config';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const fr = locale === 'fr';
+const updated = new Intl.DateTimeFormat(fr ? 'fr-CA' : 'en-CA', { year: 'numeric', month: 'long', day: 'numeric' }).format(
+  new Date('2026-11-06T12:00:00Z')
+);
+const mail = `<a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a>`;
+
+const sections = fr
+  ? [
+      {
+        h: 'Responsable de la protection des renseignements personnels',
+        p: [
+          `Xavier Jodoin, à Montréal (Québec), est responsable de la protection des renseignements personnels recueillis par ce site. Pour toute question ou demande : ${mail}.`
+        ]
+      },
+      {
+        h: 'Renseignements recueillis et pourquoi',
+        list: [
+          "<strong>Quand vous m'écrivez :</strong> votre nom, votre adresse courriel et le contenu de votre message, uniquement pour vous répondre et discuter de votre projet. Ils ne sont jamais vendus ni partagés à des fins de marketing.",
+          "<strong>Mesure d'audience, seulement avec votre consentement :</strong> si vous acceptez, Google Analytics 4 utilise des témoins (<code>_ga</code>, <code>_ga_*</code>) pour mesurer les pages consultées, la page de provenance, la région approximative ainsi que le type d'appareil et de navigateur. Le but est de savoir quel contenu est utile. Si vous refusez, Google Analytics n'est pas chargé et aucune donnée n'est envoyée à Google.",
+          "<strong>Préférences enregistrées dans votre navigateur :</strong> votre choix de thème (clair ou sombre) et votre choix de consentement sont conservés dans le stockage local de votre navigateur et ne sont envoyés nulle part.",
+          "<strong>Hébergement :</strong> le site est hébergé par GitHub Pages, qui peut journaliser les adresses IP des visiteurs à des fins de sécurité, selon la déclaration de confidentialité de GitHub."
+        ]
+      },
+      {
+        h: 'Conservation',
+        p: [
+          "Les données de Google Analytics sont conservées au plus 14 mois. Les courriels sont conservés le temps nécessaire à notre relation d'affaires, puis supprimés sur demande."
+        ]
+      },
+      {
+        h: 'Communication à l’extérieur du Québec',
+        p: [
+          "Google (Google Analytics) et GitHub (hébergement) peuvent traiter ces renseignements à l'extérieur du Québec, notamment aux États-Unis, selon leurs propres engagements contractuels de protection des données."
+        ]
+      },
+      {
+        h: 'Vos droits',
+        list: [
+          'Retirer votre consentement en tout temps avec le lien « Préférences de témoins » au bas de chaque page.',
+          'Demander l’accès à vos renseignements personnels, leur rectification ou leur suppression en écrivant à ' + mail + '.',
+          'Porter plainte auprès de la <a href="https://www.cai.gouv.qc.ca/" rel="noopener" target="_blank">Commission d’accès à l’information du Québec</a>.'
+        ]
+      },
+      {
+        h: 'Ce que ce site ne fait pas',
+        p: ['Aucune publicité, aucun témoin publicitaire, aucune vente de données et aucun profilage.']
+      }
+    ]
+  : [
+      {
+        h: 'Person in charge of personal information',
+        p: [`Xavier Jodoin, in Montréal, Québec, is responsible for protecting personal information collected through this site. For any question or request: ${mail}.`]
+      },
+      {
+        h: 'What is collected and why',
+        list: [
+          '<strong>When you email me:</strong> your name, email address and the content of your message, used only to reply and discuss your project. It is never sold or shared for marketing.',
+          '<strong>Audience measurement, only with your consent:</strong> if you accept, Google Analytics 4 uses cookies (<code>_ga</code>, <code>_ga_*</code>) to measure pages viewed, the referring page, approximate region, and device and browser type, to learn which content is useful. If you refuse, Google Analytics is not loaded and no data is sent to Google.',
+          '<strong>Preferences stored in your browser:</strong> your theme choice (light or dark) and your consent choice are kept in your browser’s local storage and are not sent anywhere.',
+          '<strong>Hosting:</strong> the site is hosted on GitHub Pages, which may log visitors’ IP addresses for security purposes, as described in GitHub’s privacy statement.'
+        ]
+      },
+      {
+        h: 'Retention',
+        p: ['Google Analytics data is kept for at most 14 months. Emails are kept for as long as our business relationship requires and deleted on request.']
+      },
+      {
+        h: 'Processing outside Québec',
+        p: ['Google (Google Analytics) and GitHub (hosting) may process this information outside Québec, including in the United States, under their own contractual data-protection commitments.']
+      },
+      {
+        h: 'Your rights',
+        list: [
+          'Withdraw your consent at any time with the “Cookie preferences” link at the bottom of every page.',
+          'Ask to access, correct or delete your personal information by writing to ' + mail + '.',
+          'File a complaint with the <a href="https://www.cai.gouv.qc.ca/" rel="noopener" target="_blank">Commission d’accès à l’information du Québec</a>.'
+        ]
+      },
+      {
+        h: 'What this site does not do',
+        p: ['No advertising, no advertising cookies, no sale of data and no profiling.']
+      }
+    ];
+---
+<section class="section">
+  <div class="container privacy">
+    <p class="eyebrow">{fr ? 'Loi 25' : 'Law 25'}</p>
+    <h1 class="h-section">{fr ? 'Politique de confidentialité' : 'Privacy policy'}</h1>
+    <p class="muted">{fr ? 'Dernière mise à jour :' : 'Last updated:'} {updated}</p>
+    {sections.map((s) => (
+      <section>
+        <h2>{s.h}</h2>
+        {s.p?.map((p) => <p set:html={p} />)}
+        {s.list && (
+          <ul>
+            {s.list.map((li) => <li set:html={li} />)}
+          </ul>
+        )}
+      </section>
+    ))}
+    <p>
+      <button type="button" class="btn btn-ghost" data-consent-open>{fr ? 'Modifier mes préférences de témoins' : 'Change my cookie preferences'}</button>
+    </p>
+  </div>
+</section>
+
+<style>
+  .privacy {
+    max-width: 760px;
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .privacy h2 {
+    font-size: var(--step-2);
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-3);
+  }
+
+  .privacy p,
+  .privacy li {
+    color: var(--ink-2);
+    line-height: 1.7;
+  }
+
+  .privacy ul {
+    display: grid;
+    gap: var(--space-3);
+    padding-left: 1.25rem;
+  }
+
+  .privacy code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background: var(--surface-2);
+    padding: 0.1em 0.35em;
+    border-radius: 6px;
+  }
+</style>

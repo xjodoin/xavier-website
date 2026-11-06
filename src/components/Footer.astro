@@ -1,12 +1,16 @@
 ---
 import Icon from './Icon.astro';
-import { CONTACT_EMAIL, homePath, type Locale } from '../i18n/config';
+import { CONTACT_EMAIL, homePath, privacyPath, type Locale } from '../i18n/config';
 import { services, servicePath, ui } from '../i18n/content';
 
 interface Props {
   locale: Locale;
+  consent?: boolean;
 }
-const { locale } = Astro.props;
+const { locale, consent = false } = Astro.props;
+const legal = locale === 'fr'
+  ? { privacy: 'Confidentialité', cookies: 'Préférences de témoins' }
+  : { privacy: 'Privacy', cookies: 'Cookie preferences' };
 const t = ui[locale];
 const year = new Date().getFullYear();
 ---
@@ -41,6 +45,10 @@ const year = new Date().getFullYear();
   </div>
   <div class="container site-footer__bottom">
     <p>© {year} Xavier Jodoin. {t.rights}</p>
+    <p class="site-footer__legal">
+      <a href={privacyPath[locale]}>{legal.privacy}</a>
+      {consent && <button type="button" class="site-footer__cookies" data-consent-open>{legal.cookies}</button>}
+    </p>
     <p>
       <a href="/" hreflang="en-CA" lang="en">English</a>
       <span aria-hidden="true"> · </span>
@@ -134,5 +142,27 @@ const year = new Date().getFullYear();
 
   .site-footer__bottom a {
     color: var(--muted);
+  }
+
+  .site-footer__legal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  .site-footer__cookies {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--muted);
+    font: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    cursor: pointer;
+  }
+
+  .site-footer__cookies:hover {
+    color: var(--ink);
   }
 </style>

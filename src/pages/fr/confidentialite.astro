@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PrivacyPage from '../../components/PrivacyPage.astro';
+import { privacyPath } from '../../i18n/config';
+---
+<BaseLayout
+  title="Politique de confidentialité | Xavier Jodoin"
+  description="Comment xavierjodoin.com traite les renseignements personnels et les témoins de mesure d'audience selon la Loi 25 du Québec."
+  locale="fr"
+  path={privacyPath.fr}
+  alternates={{ en: privacyPath.en, fr: privacyPath.fr }}
+>
+  <PrivacyPage locale="fr" />
+</BaseLayout>
