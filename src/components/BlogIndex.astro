@@ -1,0 +1,97 @@
+---
+import Icon from './Icon.astro';
+import type { CollectionEntry } from 'astro:content';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  locale: Locale;
+  posts: CollectionEntry<'blog'>[];
+}
+const { locale, posts } = Astro.props;
+const fr = locale === 'fr';
+const base = fr ? '/fr/blogue/' : '/blog/';
+const fmt = new Intl.DateTimeFormat(fr ? 'fr-CA' : 'en-CA', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+---
+<section class="section">
+  <div class="container narrow">
+    <header class="section-head">
+      <p class="eyebrow">{fr ? 'Blogue' : 'Writing'}</p>
+      <h1 class="h-section">{fr ? 'Guides et notes de chantier' : 'Notes from the build log'}</h1>
+      <p class="lead">
+        {fr
+          ? "Des guides concrets sur l'intelligence artificielle pour les PME du Québec : agents IA, automatisation, modèles sur mesure et Loi 25."
+          : 'Short notes on AI products, models and the craft of shipping software.'}
+      </p>
+    </header>
+    <ul class="posts">
+      {posts.map((post) => (
+        <li>
+          <a href={`${base}${post.slug}/`} class="post-row">
+            <time datetime={post.data.publishDate.toISOString()}>{fmt.format(post.data.publishDate)}</time>
+            <span class="post-row__title">{post.data.title}</span>
+            <span class="post-row__desc">{post.data.description}</span>
+            <Icon name="arrow" size={18} />
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p class="other-lang">
+      {fr ? (
+        <a href="/blog/" hreflang="en-CA" lang="en">Read the English posts</a>
+      ) : (
+        <a href="/fr/blogue/" hreflang="fr-CA" lang="fr">Lire les articles en français</a>
+      )}
+    </p>
+  </div>
+</section>
+
+<style>
+  .narrow {
+    max-width: 880px;
+  }
+
+  .posts {
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+
+  .post-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-2) var(--space-6);
+    padding: var(--space-6) 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .post-row:hover .post-row__title {
+    color: var(--accent);
+  }
+
+  .post-row time {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .post-row__title {
+    font-size: var(--step-2);
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .post-row__desc {
+    color: var(--ink-2);
+  }
+
+  .post-row :global(svg) {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    align-self: center;
+  }
+
+  .other-lang {
+    margin-top: var(--space-10);
+  }
+</style>

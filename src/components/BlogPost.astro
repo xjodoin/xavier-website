@@ -1,0 +1,214 @@
+---
+import Icon from './Icon.astro';
+import { type CollectionEntry } from 'astro:content';
+import { mailto, type Locale } from '../i18n/config';
+import { services, servicePath } from '../i18n/content';
+
+interface Props {
+  locale: Locale;
+  post: CollectionEntry<'blog'>;
+}
+const { locale, post } = Astro.props;
+const fr = locale === 'fr';
+const { Content, headings } = await post.render();
+const fmt = new Intl.DateTimeFormat(fr ? 'fr-CA' : 'en-CA', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+const words = post.body.split(/\s+/).length;
+const minutes = Math.max(1, Math.round(words / 220));
+const toc = headings.filter((h) => h.depth === 2);
+---
+<article class="section post">
+  <div class="container post__inner">
+    <a class="post__back" href={fr ? '/fr/blogue/' : '/blog/'}><Icon name="arrow" size={16} /> {fr ? 'Tous les articles' : 'All posts'}</a>
+    <header class="post__header">
+      <p class="post__meta">
+        <time datetime={post.data.publishDate.toISOString()}>{fmt.format(post.data.publishDate)}</time>
+        <span aria-hidden="true">·</span>
+        <span>{minutes} min {fr ? 'de lecture' : 'read'}</span>
+        <span aria-hidden="true">·</span>
+        <span>Xavier Jodoin</span>
+      </p>
+      <h1>{post.data.title}</h1>
+      <p class="lead">{post.data.description}</p>
+    </header>
+
+    {toc.length > 2 && (
+      <nav class="toc card" aria-label={fr ? 'Sommaire' : 'Contents'}>
+        <p class="toc__title">{fr ? 'Sommaire' : 'Contents'}</p>
+        <ol>
+          {toc.map((h) => (
+            <li><a href={`#${h.slug}`}>{h.text}</a></li>
+          ))}
+        </ol>
+      </nav>
+    )}
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    <aside class="post__cta card">
+      <p>
+        <strong>{fr ? 'Vous voulez appliquer ça dans votre entreprise?' : 'Working on something similar?'}</strong>{' '}
+        {fr
+          ? "J'aide les PME de Montréal et de partout au Québec à intégrer l'IA : agents sur mesure, automatisation et modèles."
+          : 'I help teams in Montréal and across Québec build AI agents and custom models.'}
+      </p>
+      <div class="post__cta-actions">
+        <a class="btn btn-accent" href={mailto(locale)}>{fr ? 'Réserver un appel gratuit de 30 minutes' : 'Book a free 30-minute call'} <Icon name="arrow" size={18} /></a>
+      </div>
+      <ul class="post__services">
+        {services.map((s) => (
+          <li><a href={servicePath(s, locale)}>{s.name[locale]}</a></li>
+        ))}
+      </ul>
+    </aside>
+  </div>
+</article>
+
+<style>
+  .post__inner {
+    max-width: 760px;
+  }
+
+  .post__back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.92rem;
+    margin-bottom: var(--space-10);
+  }
+
+  .post__back :global(svg) {
+    transform: rotate(180deg);
+  }
+
+  .post__header {
+    display: grid;
+    gap: var(--space-5);
+    margin-bottom: var(--space-10);
+  }
+
+  .post__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+
+  .post__header h1 {
+    font-size: var(--step-4);
+    letter-spacing: -0.035em;
+  }
+
+  .toc {
+    margin-bottom: var(--space-10);
+  }
+
+  .toc__title {
+    font-weight: 650;
+    margin-bottom: var(--space-3);
+  }
+
+  .toc ol {
+    padding-left: 1.25rem;
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .toc a {
+    color: var(--ink-2);
+  }
+
+  .prose {
+    font-size: 1.125rem;
+    line-height: 1.75;
+    color: var(--ink-2);
+  }
+
+  .prose :global(> * + *) {
+    margin-top: 1.25em;
+  }
+
+  .prose :global(h2) {
+    font-size: var(--step-2);
+    color: var(--ink);
+    margin-top: 2em;
+    scroll-margin-top: 6rem;
+  }
+
+  .prose :global(h3) {
+    font-size: var(--step-1);
+    color: var(--ink);
+    margin-top: 1.6em;
+  }
+
+  .prose :global(strong) {
+    color: var(--ink);
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    padding-left: 1.4em;
+    display: grid;
+    gap: 0.4em;
+  }
+
+  .prose :global(blockquote) {
+    margin: 1.5em 0;
+    padding: var(--space-4) var(--space-6);
+    border-left: 3px solid var(--accent);
+    background: var(--surface);
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+
+  .prose :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+
+  .prose :global(th),
+  .prose :global(td) {
+    text-align: left;
+    padding: 0.6em 0.75em;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+
+  .prose :global(th) {
+    color: var(--ink);
+  }
+
+  .prose :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background: var(--surface-2);
+    padding: 0.1em 0.35em;
+    border-radius: 6px;
+  }
+
+  .prose :global(pre) {
+    padding: var(--space-6);
+    border-radius: var(--radius);
+    background: #15140f;
+    color: #f2f0e9;
+    overflow-x: auto;
+  }
+
+  .post__cta {
+    display: grid;
+    gap: var(--space-5);
+    margin-top: var(--space-16);
+  }
+
+  .post__services {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-6);
+    font-size: 0.95rem;
+  }
+</style>

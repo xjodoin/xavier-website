@@ -1,20 +1,18 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Icon from '../../components/Icon.astro';
+import BlogPost from '../../components/BlogPost.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
-import { absolute, mailto } from '../../i18n/config';
+import { absolute } from '../../i18n/config';
 import { webPage } from '../../i18n/schema';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
+  const posts = await getCollection('blog', (p) => p.data.lang === 'en');
   return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
 }
 
 const { post } = Astro.props as { post: CollectionEntry<'blog'> };
-const { Content } = await post.render();
 const path = `/blog/${post.slug}/`;
 const title = `${post.data.title} | Xavier Jodoin`;
-const published = new Intl.DateTimeFormat('en-CA', { year: 'numeric', month: 'long', day: 'numeric' }).format(post.data.publishDate);
 const schema = [
   ...webPage({
     path,
@@ -33,7 +31,7 @@ const schema = [
     headline: post.data.title,
     description: post.data.description,
     datePublished: post.data.publishDate.toISOString(),
-    inLanguage: 'en-CA',
+    inLanguage: 'en' === 'fr' ? 'fr-CA' : 'en-CA',
     url: absolute(path),
     mainEntityOfPage: { '@id': `${absolute(path)}#webpage` },
     author: { '@id': 'https://xavierjodoin.com/#person' },
@@ -43,100 +41,5 @@ const schema = [
 ];
 ---
 <BaseLayout title={title} description={post.data.description} locale="en" path={path} type="article" schema={schema} published={post.data.publishDate}>
-  <article class="section post">
-    <div class="container post__inner">
-      <a class="post__back" href="/blog/"><Icon name="arrow" size={16} /> All posts</a>
-      <header class="post__header">
-        <time datetime={post.data.publishDate.toISOString()}>{published}</time>
-        <h1>{post.data.title}</h1>
-        <p class="lead">{post.data.description}</p>
-      </header>
-      <div class="prose">
-        <Content />
-      </div>
-      <aside class="post__cta card">
-        <p><strong>Working on something similar?</strong> I help teams in Montréal and across Québec build AI agents and custom models.</p>
-        <a class="btn btn-accent" href={mailto('en')}>Book a free 30-minute call <Icon name="arrow" size={18} /></a>
-      </aside>
-    </div>
-  </article>
+  <BlogPost locale="en" post={post} />
 </BaseLayout>
-
-<style>
-  .post__inner {
-    max-width: 760px;
-  }
-
-  .post__back {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 0.92rem;
-    margin-bottom: var(--space-10);
-  }
-
-  .post__back :global(svg) {
-    transform: rotate(180deg);
-  }
-
-  .post__header {
-    display: grid;
-    gap: var(--space-5);
-    margin-bottom: var(--space-12);
-  }
-
-  .post__header time {
-    color: var(--muted);
-    font-size: 0.92rem;
-  }
-
-  .post__header h1 {
-    font-size: var(--step-4);
-    letter-spacing: -0.035em;
-  }
-
-  .prose {
-    font-size: 1.125rem;
-    line-height: 1.75;
-    color: var(--ink-2);
-  }
-
-  .prose :global(> * + *) {
-    margin-top: 1.25em;
-  }
-
-  .prose :global(h2) {
-    font-size: var(--step-2);
-    color: var(--ink);
-    margin-top: 2em;
-  }
-
-  .prose :global(ul),
-  .prose :global(ol) {
-    padding-left: 1.4em;
-  }
-
-  .prose :global(code) {
-    font-family: var(--font-mono);
-    font-size: 0.9em;
-    background: var(--surface-2);
-    padding: 0.1em 0.35em;
-    border-radius: 6px;
-  }
-
-  .prose :global(pre) {
-    padding: var(--space-6);
-    border-radius: var(--radius);
-    background: #15140f;
-    color: #f2f0e9;
-    overflow-x: auto;
-  }
-
-  .post__cta {
-    display: grid;
-    gap: var(--space-5);
-    margin-top: var(--space-16);
-  }
-</style>

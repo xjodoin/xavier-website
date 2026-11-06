@@ -6,7 +6,7 @@ interface Props {
 }
 const { locale } = Astro.props;
 const fr = locale === 'fr';
-const updated = new Intl.DateTimeFormat(fr ? 'fr-CA' : 'en-CA', { year: 'numeric', month: 'long', day: 'numeric' }).format(
+const updated = new Intl.DateTimeFormat(fr ? 'fr-CA' : 'en-CA', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }).format(
   new Date('2026-11-06T12:00:00Z')
 );
 const mail = `<a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a>`;

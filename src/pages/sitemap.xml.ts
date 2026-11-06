@@ -10,19 +10,22 @@ export const GET: APIRoute = async () => {
   const pairs: Partial<Record<Locale, string>>[] = [
     { en: '/', fr: '/fr/' },
     ...services.map((s) => ({ en: servicePath(s, 'en'), fr: servicePath(s, 'fr') })),
-    { en: privacyPath.en, fr: privacyPath.fr }
+    { en: privacyPath.en, fr: privacyPath.fr },
+    { en: '/blog/', fr: '/fr/blogue/' }
   ];
 
   const entries: Entry[] = [];
   for (const alt of pairs) {
     for (const path of Object.values(alt)) {
-      entries.push({ loc: path!, alternates: alt, lastmod: build, priority: path === '/' || path === '/fr/' ? 1 : Object.values(privacyPath).includes(path!) ? 0.2 : 0.9 });
+      entries.push({ loc: path!, alternates: alt, lastmod: build, priority: path === '/' || path === '/fr/' ? 1 : Object.values(privacyPath).includes(path!) ? 0.2 : path === '/blog/' || path === '/fr/blogue/' ? 0.6 : 0.9 });
     }
   }
 
-  entries.push({ loc: '/blog/', lastmod: build, priority: 0.5 });
   const posts = await getCollection('blog');
-  for (const p of posts) entries.push({ loc: `/blog/${p.slug}/`, lastmod: p.data.publishDate, priority: 0.4 });
+  for (const p of posts) {
+    const base = p.data.lang === 'fr' ? '/fr/blogue/' : '/blog/';
+    entries.push({ loc: `${base}${p.slug}/`, lastmod: p.data.publishDate, priority: p.data.lang === 'fr' ? 0.7 : 0.4 });
+  }
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">

@@ -13,10 +13,11 @@ const { locale } = Astro.props;
 const c = home[locale];
 const t = ui[locale];
 const models = serviceById('models');
-const posts = (await getCollection('blog'))
+const blogBase = locale === 'fr' ? '/fr/blogue/' : '/blog/';
+const posts = (await getCollection('blog', (p) => p.data.lang === locale))
   .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
   .slice(0, 3);
-const dateFmt = new Intl.DateTimeFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', { year: 'numeric', month: 'long', day: 'numeric' });
+const dateFmt = new Intl.DateTimeFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
 const featured = products.find((p) => p.featured)!;
 const others = products.filter((p) => !p.featured);
 ---
@@ -299,12 +300,12 @@ const others = products.filter((p) => !p.featured);
         <p class="eyebrow">{c.writing.eyebrow}</p>
         <h2 id="writing-title" class="h-section">{c.writing.title}</h2>
       </div>
-      <a class="link-arrow" href="/blog/">{c.writing.all} <Icon name="arrow" size={18} /></a>
+      <a class="link-arrow" href={blogBase}>{c.writing.all} <Icon name="arrow" size={18} /></a>
     </header>
     <ul class="posts reveal">
       {posts.map((post) => (
         <li>
-          <a href={`/blog/${post.slug}/`} class="posts__row" hreflang="en">
+          <a href={`${blogBase}${post.slug}/`} class="posts__row">
             <time datetime={post.data.publishDate.toISOString()}>{dateFmt.format(post.data.publishDate)}</time>
             <span class="posts__title">{post.data.title}</span>
             <Icon name="arrow" size={18} />

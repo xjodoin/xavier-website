@@ -5,7 +5,7 @@ import { absolute } from '../i18n/config';
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 export const GET: APIRoute = async () => {
-  const posts = (await getCollection('blog')).sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+  const posts = (await getCollection('blog', (p) => p.data.lang === 'en')).sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
   const items = posts
     .map(
       (p) => `    <item>

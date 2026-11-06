@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import BlogPost from '../../../components/BlogPost.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { absolute } from '../../../i18n/config';
+import { webPage } from '../../../i18n/schema';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', (p) => p.data.lang === 'fr');
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+const { post } = Astro.props as { post: CollectionEntry<'blog'> };
+const path = `/fr/blogue/${post.slug}/`;
+const title = `${post.data.title} | Xavier Jodoin`;
+const schema = [
+  ...webPage({
+    path,
+    title,
+    description: post.data.description,
+    locale: 'fr',
+    crumbs: [
+      { name: 'Accueil', path: '/fr/' },
+      { name: 'Blogue', path: '/fr/blogue/' },
+      { name: post.data.title, path }
+    ]
+  }),
+  {
+    '@type': 'BlogPosting',
+    '@id': `${absolute(path)}#article`,
+    headline: post.data.title,
+    description: post.data.description,
+    datePublished: post.data.publishDate.toISOString(),
+    inLanguage: 'fr' === 'fr' ? 'fr-CA' : 'en-CA',
+    url: absolute(path),
+    mainEntityOfPage: { '@id': `${absolute(path)}#webpage` },
+    author: { '@id': 'https://xavierjodoin.com/#person' },
+    publisher: { '@id': 'https://xavierjodoin.com/#business' },
+    image: absolute('/og-fr.jpg')
+  }
+];
+---
+<BaseLayout title={title} description={post.data.description} locale="fr" path={path} type="article" schema={schema} published={post.data.publishDate}>
+  <BlogPost locale="fr" post={post} />
+</BaseLayout>

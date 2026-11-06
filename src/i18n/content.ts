@@ -38,7 +38,7 @@ export const ui = {
       { href: '/fr/#process', label: 'Démarche' },
       { href: '/fr/#work', label: 'Réalisations' },
       { href: '/fr/#about', label: 'À propos' },
-      { href: '/blog/', label: 'Blogue' }
+      { href: '/fr/blogue/', label: 'Blogue' }
     ],
     navCta: 'Prendre rendez-vous',
     menu: 'Menu',
@@ -786,7 +786,7 @@ export const home = {
         { q: 'Comment commencer?', a: "Réservez un appel gratuit de 30 minutes. On examine un processus ensemble et je vous dis franchement si l'IA en vaut la peine." }
       ]
     },
-    writing: { eyebrow: 'Blogue', title: 'Notes de chantier (en anglais)', all: 'Tous les articles' },
+    writing: { eyebrow: 'Blogue', title: 'Guides et notes de chantier', all: 'Tous les articles' },
     contact: {
       eyebrow: 'Contact',
       title: 'Parlez-moi d’un processus qui gruge votre semaine.',
